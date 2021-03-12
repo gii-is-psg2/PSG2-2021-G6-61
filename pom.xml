@@ -59,6 +59,14 @@
 				<role>developer</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>javramarr1</id>
+			<name>Javier</name>
+			<email>jramosarrondo@gmail.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
 	</developers>
 	
     <dependencies>
