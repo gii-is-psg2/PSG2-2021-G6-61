@@ -31,7 +31,19 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+    
+	<developers>
+		<developer>
+			<id>gonlalalv</id>
+			<name>Gonzalo</name>
+			<email>geronimolallena@gmail.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	
+	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
