@@ -34,6 +34,25 @@
 
     </properties>
 
+	<developers>
+		<developer>
+			<id>gonlalalv</id>
+			<name>Gonzalo</name>
+			<email>geronimolallena@gmail.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>angtordom1</id>
+			<name>Ángel</name>
+			<email>angeltd1997@gmail.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
