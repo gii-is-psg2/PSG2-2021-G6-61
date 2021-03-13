@@ -75,6 +75,14 @@
 				<role>Scrum Master</role>
 			</roles>
 		</developer>
+				<developer>
+			<id>adrleogom</id>
+			<name>Adriana</name>
+			<email>adrleogom@alum.us.es</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
 	</developers>
 	
     <dependencies>
