@@ -15,7 +15,9 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -25,6 +27,7 @@ import org.springframework.samples.petclinic.model.Book;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.BookService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.RoomService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
@@ -40,19 +43,23 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
 	private final PetService petService;
-	
 	private final BookService bookService;
-	
 	private final BookValidator bookValidator;
+	private final RoomService roomService;
+	
 
 	@Autowired
-	public BookController(PetService petService, BookService bookService, BookValidator bookValidator) {
+	public BookController(PetService petService, BookService bookService, BookValidator bookValidator, RoomService roomService) {
+		this.roomService = roomService;
 		this.bookValidator = bookValidator;
 		this.petService = petService;
 		this.bookService = bookService;
 	}
 	
-	
+	@ModelAttribute("rooms")
+	public Collection<Integer> populatePetTypes() {
+		return this.roomService.findAll().stream().map(x->x.getId()).collect(Collectors.toList());
+	}
 	
 	@ModelAttribute("book")
 	public Book loadPetWithBook(@PathVariable("petId") int petId) {
