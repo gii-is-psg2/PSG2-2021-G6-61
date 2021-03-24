@@ -89,6 +89,42 @@
                         </tr>
                     </table>
                 </td>
+                <td valign="top">
+                    <table class="table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Room number</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <c:forEach var="book" items="${pet.books}">
+                            <tr>
+                            	<td><c:out value="${book.room.id}"/></td>
+                                <td><petclinic:localDate date="${book.checkin}" pattern="yyyy-MM-dd"/></td>
+                                <td><petclinic:localDate date="${book.checkout}" pattern="yyyy-MM-dd"/></td>
+                                <td><c:out value="${book.details}"/></td>
+                            </tr>
+                        </c:forEach>
+                        <tr>
+                            <td>
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(petUrl)}">Delete book?</a>
+                            </td>
+                            <td>
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/books/new" var="bookUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(visitUrl)}">Add Book</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
 
         </c:forEach>

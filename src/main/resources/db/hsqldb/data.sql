@@ -62,3 +62,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO rooms(id) VALUES (1);
+INSERT INTO rooms(id) VALUES (2);
+INSERT INTO rooms(id) VALUES (3);
+
+INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (1, 1, 1, '2021-01-01', '2021-01-08', 'rabies shot');
+INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (2, 2, 2, '2021-01-02', '2021-01-09','rabies shot');
+INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (3, 8, 1, '2021-01-03', '2021-01-07','neutered');
+INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (4, 7, 3, '2021-01-04', '2021-01-10','spayed');
+
