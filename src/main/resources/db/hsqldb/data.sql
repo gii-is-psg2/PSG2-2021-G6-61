@@ -70,4 +70,5 @@ INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (1, 1, 1, '
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (2, 2, 2, '2021-01-02', '2021-01-09','rabies shot');
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (3, 8, 1, '2021-01-03', '2021-01-07','neutered');
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (4, 7, 3, '2021-01-04', '2021-01-10','spayed');
+INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (5, 1, 1, '2021-04-04', '2021-04-14','spayed');
 

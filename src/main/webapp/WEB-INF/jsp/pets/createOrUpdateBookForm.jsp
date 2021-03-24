@@ -8,9 +8,16 @@
 <petclinic:layout pageName="owners">
     <jsp:attribute name="customScript">
         <script>
-            $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
-            });
+            
+            $('#checkin, #checkout').datepicker({
+            	  minDate: new Date(), dateFormat: 'yy/mm/dd'
+            	});
+
+            	jQuery(document).on('change', '#checkin', (event) => {
+            	    const element = event.target;
+            	    console.log(element.value);
+            	    jQuery('#checkout').datepicker('option', 'minDate', element.value);
+            	});
         </script>
     </jsp:attribute>
     <jsp:body>
@@ -36,8 +43,10 @@
 
         <form:form modelAttribute="book" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Date" name="date"/>
-                <petclinic:inputField label="Description" name="description"/>
+            	<petclinic:inputField label="Number Room" name="room.id"/>
+            	<petclinic:inputField label="Check In" name="checkin"/>
+                <petclinic:inputField label="Check Out" name="checkout"/>
+                <petclinic:inputField label="Description" name="details"/>
             </div>
 
             <div class="form-group">
@@ -52,13 +61,17 @@
         <b>Previous Books</b>
         <table class="table table-striped">
             <tr>
-                <th>Date</th>
+            	<th>Room Number</th>
+            	<th>Check In</th>
+                <th>Check Out</th>
                 <th>Description</th>
             </tr>
-            <c:forEach var="visit" items="${book.pet.books}">
+            <c:forEach var="book" items="${book.pet.books}">
                 <c:if test="${!book['new']}">
                     <tr>
+                    	<td><c:out value="${book.room.id}"/></td>
                         <td><petclinic:localDate date="${book.checkin}" pattern="yyyy/MM/dd"/></td>
+                        <td><petclinic:localDate date="${book.checkout}" pattern="yyyy/MM/dd"/></td>
                         <td><c:out value="${book.details}"/></td>
                     </tr>
                 </c:if>

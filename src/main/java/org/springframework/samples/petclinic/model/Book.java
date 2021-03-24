@@ -21,7 +21,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,18 +51,21 @@ public class Book extends BaseEntity {
 	private String details;
 
 	@Column(name = "checkin")
-	@DateTimeFormat(pattern="dd/MM/yyyy")
-	@Future
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@FutureOrPresent
+	@NotNull
 	private LocalDate checkin;
 	
 	@Column(name = "checkout")
-	@DateTimeFormat(pattern="dd/MM/yyyy")
-	@Future
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@FutureOrPresent
+	@NotNull
 	private LocalDate checkout;
 
 
 	@ManyToOne
 	@JoinColumn(name = "room_id")
+	@NotNull
 	private Room room;
 	
 	@ManyToOne

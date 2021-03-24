@@ -20,12 +20,14 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.component.BookValidator;
 import org.springframework.samples.petclinic.model.Book;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.BookService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -40,18 +42,25 @@ public class BookController {
 	private final PetService petService;
 	
 	private final BookService bookService;
+	
+	private final BookValidator bookValidator;
 
 	@Autowired
-	public BookController(PetService petService, BookService bookService) {
+	public BookController(PetService petService, BookService bookService, BookValidator bookValidator) {
+		this.bookValidator = bookValidator;
 		this.petService = petService;
 		this.bookService = bookService;
 	}
-
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+	
+	
+	
+	@ModelAttribute("book")
+	public Book loadPetWithBook(@PathVariable("petId") int petId) {
+		Pet pet = this.petService.findPetById(petId);
+		Book book = new Book();
+		pet.addBook(book);
+		return book;
 	}
-
 
 	@GetMapping(value = "/owners/*/pets/{petId}/books/new")
 	public String initNewBookForm(@PathVariable("petId") int petId, Map<String, Object> model) {
@@ -61,6 +70,8 @@ public class BookController {
 
 	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/books/new")
 	public String processNewBookForm(@Valid Book book, BindingResult result) {
+		
+		ValidationUtils.invokeValidator(bookValidator, book, result);
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateBookForm";
 		}

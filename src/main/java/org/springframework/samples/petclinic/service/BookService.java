@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,16 @@ public class BookService extends BaseService<Book>{
 	@Transactional(readOnly = true)
 	public Collection<Book> findBooksByPet(Integer petId) {
 		return bookRepository.findByPetId(petId);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Book> findByRoomIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+		return bookRepository.findByRoomIdAndCheckinBetween(roomId, checkIn, checkOut);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Book> findByRoomIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+		return bookRepository.findByRoomIdAndCheckoutBetween(roomId, checkIn, checkOut);
 	}
 
 }

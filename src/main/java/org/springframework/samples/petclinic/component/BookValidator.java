@@ -1,0 +1,54 @@
+package org.springframework.samples.petclinic.component;
+
+import java.time.LocalDate;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Book;
+import org.springframework.samples.petclinic.service.BookService;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
+public class BookValidator implements Validator{
+	
+	private static final Log LOG = LogFactory.getLog(BookValidator.class);
+
+	@Autowired
+	private BookService bookService;
+	
+	@Override
+	public void validate(Object target, Errors errors) {
+		Book book = (Book) target;
+		
+				if(book.getCheckin().isBefore(LocalDate.now())) {
+					errors.rejectValue("checkin", "error","La fecha del CheckIn debe ser posterior o igual al día de hoy");
+				}
+				
+				if(book.getCheckout().isBefore(LocalDate.now())) {
+					errors.rejectValue("checkout", "error","La fecha del CheckIn debe ser posterior o igual al día de hoy");
+				}
+				
+				if(book.getCheckout().isBefore(book.getCheckin())) {
+					errors.rejectValue("checkout", "error","La fecha del CheckOut debe ser posterior o igual a la fecha del checkIn");
+				}
+				
+				if(bookService.findByRoomIdAndCheckinBetween(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("room.id", "error","Ya está esa habitación revervada para esas fecha");
+				}else if(bookService.findByRoomIdAndCheckoutBetween(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("room.id", "error","Ya está esa habitación revervada para esas fecha");
+				}
+	}
+	
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return Book.class.isAssignableFrom(clazz);
+	}
+}
