@@ -18,7 +18,7 @@
 			<petclinic:selectField label="Specialties" name="specialties" size="" names="${specialty_types}"/>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-offset-2 col-sm-7">
                 <c:choose>
                     <c:when test="${vet['new']}">
                         <button class="btn btn-default" type="submit"><spring:message code="saveVetButton" text="Save Vet"/></button>
@@ -28,6 +28,13 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+            <div class="col-sm-offset-2 col-sm-1">
+				<a href="/vets">
+					<button class="btn btn-default" type="button">
+						<spring:message code="cancel" text="Cancel" />
+					</button>
+				</a>
+			</div> 
         </div>
     </form:form>
 
