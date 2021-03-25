@@ -15,7 +15,12 @@
  */
 package org.springframework.samples.petclinic.repository;
 
+import java.util.List;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 
 /**
@@ -30,5 +35,9 @@ import org.springframework.samples.petclinic.model.Vet;
  * @author Michael Isvy
  */
 public interface VetRepository extends JpaRepository<Vet, Integer>{
+
+	@Query("SELECT spec FROM Specialty spec ORDER BY spec.name")
+	List<Specialty> findSpecialties() throws DataAccessException;
+
 
 }

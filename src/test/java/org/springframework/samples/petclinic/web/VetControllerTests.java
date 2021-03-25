@@ -22,7 +22,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -42,13 +45,15 @@ class VetControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	private static final int TEST_VET_ID = 1;
+	
 	@BeforeEach
 	void setup() {
 
 		Vet james = new Vet();
 		james.setFirstName("James");
 		james.setLastName("Carter");
-		james.setId(1);
+		james.setId(TEST_VET_ID);
 		Vet helen = new Vet();
 		helen.setFirstName("Helen");
 		helen.setLastName("Leary");
@@ -58,6 +63,7 @@ class VetControllerTests {
 		radiology.setName("radiology");
 		helen.addSpecialty(radiology);
 		given(this.clinicService.findVets()).willReturn(Lists.newArrayList(james, helen));
+		
 	}
         
     @WithMockUser(value = "spring")
@@ -74,5 +80,68 @@ class VetControllerTests {
 				.andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
 				.andExpect(content().node(hasXPath("/vets/vetList[id=1]/id")));
 	}
+	
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitCreationForm() throws Exception {
+		mockMvc.perform(get("/vets/new"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("vet"))
+		.andExpect(view().name("vets/createOrUpdateVetForm"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormSuccess() throws Exception {
+		mockMvc.perform(post("/vets/new")
+				.param("firstName", "Juan Jesús")
+				.param("lastName", "Ferrero Gutiérrez")
+				.with(csrf())
+				.param("specialties", "radiology"))
+		.andExpect(status().is3xxRedirection());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormHasErrors() throws Exception {
+		mockMvc.perform(post("/vets/new")
+				.with(csrf())
+				.param("firstName", "") //Si dejamos un espacio o añadimos una url o texto especial no da error
+				.param("lastName", "Ferrero Gutiérrez")
+				.param("specialties", ""))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasErrors("vet"))
+		.andExpect(model().attributeHasFieldErrors("vet", "firstName"))
+		.andExpect(view().name("vets/createOrUpdateVetForm"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateOwnerFormSuccess() throws Exception {
+		mockMvc.perform(post("/vets/{vetId}/edit", TEST_VET_ID)
+				.with(csrf())
+				.param("firstName", "James")
+				.param("lastName", "Carter-Williams")
+				.param("specialties", ""))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/vets"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateOwnerFormHasErrors() throws Exception {
+		mockMvc.perform(post("/vets/{vetId}/edit", TEST_VET_ID)
+				.with(csrf())
+				.param("firstName", "James")
+				.param("lastName", "")
+				.param("specialties", ""))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeHasErrors("vet"))
+		.andExpect(model().attributeHasFieldErrors("vet", "lastName"))
+		.andExpect(view().name("vets/createOrUpdateVetForm"));
+	}
+
+	
 
 }
