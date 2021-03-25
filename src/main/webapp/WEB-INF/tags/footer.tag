@@ -12,4 +12,15 @@
 <spring:url value="/webjars/bootstrap/3.3.6/js/bootstrap.min.js" var="bootstrapJs"/>
 <script src="${bootstrapJs}"></script>
 
+<button id="es"><img alt="ES" height="30" width="30" align="middle" src="/resources/images/spain.png"></button>
 
+<button id="en"><img alt="EN" height="30" width="30" align="middle" src="/resources/images/uk.jpg"></button>
+
+<script>
+	$('#en').click( function() {
+		window.location.replace('?lang=' + "en");
+	});
+	$('#es').click( function() {
+		window.location.replace('?lang=' + "es");
+	});
+</script>
