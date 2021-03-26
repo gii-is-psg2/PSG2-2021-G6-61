@@ -49,11 +49,11 @@ public class BookValidator implements Validator{
 				
 				
 				if(bookService.findByRoomIdAndCheckinBetween(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
-					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fecha");
+					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fechas");
 				}else if(bookService.findByRoomIdAndCheckoutBetween(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
-					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fecha");
-				}else if(bookService.findByRoomIdAndCheckinAfterAndCheckoutAfter(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
-					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fecha");
+					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fechas");
+				}else if(bookService.findByRoomIdAndCheckinBeforeAndCheckoutAfter(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fechas");
 				}
 				}
 	}
