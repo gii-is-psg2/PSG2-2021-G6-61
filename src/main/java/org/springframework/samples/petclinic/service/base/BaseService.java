@@ -1,11 +1,14 @@
 package org.springframework.samples.petclinic.service.base;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class BaseService<T> {
 	
 	/** Repositorio genérico */
@@ -31,11 +34,11 @@ public class BaseService<T> {
 		final List<T> returnEntity = genericRepository.saveAll(entities);
 		return returnEntity;
 	}
-
+	
 	public void delete(final T entity) {
 		genericRepository.delete(entity);		
 	}
-
+	
 	public void deleteById(final Integer id) {
 		genericRepository.deleteById(id);
 	}
