@@ -35,10 +35,6 @@ import lombok.Setter;
 
 @Table(name = "rooms")
 public class Room extends BaseEntity {
-
-
-	//@OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
-	//private Set<Book> books;
 	
 	
 }

@@ -55,5 +55,10 @@ public class BookService extends BaseService<Book>{
 	public Collection<Book> findByRoomIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
 		return bookRepository.findByRoomIdAndCheckoutBetween(roomId, checkIn, checkOut);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Book> findByRoomIdAndCheckinAfterAndCheckoutAfter(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+		return bookRepository.findByRoomIdAndCheckinAfterAndCheckoutAfter(roomId, checkIn, checkOut);
+	}
 
 }

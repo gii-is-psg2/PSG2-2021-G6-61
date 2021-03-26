@@ -87,5 +87,13 @@ public class BookController {
 			return "redirect:/owners/{ownerId}";
 		}
 	}
+	
+	@GetMapping(value = "/owners/{ownerId}/pets/{petId}/books/{bookId}/delete")
+	public String processDeleteBook	(@PathVariable("bookId") int bookId) {
+
+			this.bookService.deleteById(bookId);
+			return "redirect:/owners/{ownerId}";
+		
+	}
 
 }

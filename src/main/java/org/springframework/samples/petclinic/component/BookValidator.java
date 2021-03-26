@@ -28,6 +28,13 @@ public class BookValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Book book = (Book) target;
 		
+				if(book.getRoom()==null) {
+					errors.rejectValue("room", "error","Debe seleccionar una habitación");
+				}else if(book.getCheckin()==null) {
+					errors.rejectValue("checkin", "error","Debe seleccionar una fecha de checkin");
+				}else if(book.getCheckout()==null) {
+					errors.rejectValue("checkout", "error","Debe seleccionar una fecha de checkout");
+				}else {
 				if(book.getCheckin().isBefore(LocalDate.now())) {
 					errors.rejectValue("checkin", "error","La fecha del CheckIn debe ser posterior o igual al día de hoy");
 				}
@@ -36,14 +43,18 @@ public class BookValidator implements Validator{
 					errors.rejectValue("checkout", "error","La fecha del CheckIn debe ser posterior o igual al día de hoy");
 				}
 				
-				if(book.getCheckout().isBefore(book.getCheckin())) {
+				if(book.getCheckout()==null ||book.getCheckout().isBefore(book.getCheckin())) {
 					errors.rejectValue("checkout", "error","La fecha del CheckOut debe ser posterior o igual a la fecha del checkIn");
 				}
 				
+				
 				if(bookService.findByRoomIdAndCheckinBetween(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
-					errors.rejectValue("room.id", "error","Ya está esa habitación revervada para esas fecha");
+					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fecha");
 				}else if(bookService.findByRoomIdAndCheckoutBetween(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
-					errors.rejectValue("room.id", "error","Ya está esa habitación revervada para esas fecha");
+					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fecha");
+				}else if(bookService.findByRoomIdAndCheckinAfterAndCheckoutAfter(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fecha");
+				}
 				}
 	}
 	

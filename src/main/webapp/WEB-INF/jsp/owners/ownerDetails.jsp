@@ -97,6 +97,7 @@
                             <th>Check In</th>
                             <th>Check Out</th>
                             <th>Description</th>
+                            <th style="display:none;">Action</th>
                         </tr>
                         </thead>
                         <c:forEach var="book" items="${pet.books}">
@@ -105,16 +106,18 @@
                                 <td><petclinic:localDate date="${book.checkin}" pattern="yyyy-MM-dd"/></td>
                                 <td><petclinic:localDate date="${book.checkout}" pattern="yyyy-MM-dd"/></td>
                                 <td><c:out value="${book.details}"/></td>
-                            </tr>
-                        </c:forEach>
-                        <tr>
-                            <td>
-                                <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
+                                <td style="display:none;">
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/books/{bookId}/delete" var="deleteBookUrl">
                                     <spring:param name="ownerId" value="${owner.id}"/>
                                     <spring:param name="petId" value="${pet.id}"/>
+                                    <spring:param name="bookId" value="${book.id}"/>
                                 </spring:url>
-                                <a href="${fn:escapeXml(petUrl)}">Delete book?</a>
-                            </td>
+                                <a href="${fn:escapeXml(deleteBookUrl)}">Delete Book</a>
+                           	   </td>
+                            </tr>
+                        </c:forEach>
+                        	
+                        <tr>
                             <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/books/new" var="bookUrl">
                                     <spring:param name="ownerId" value="${owner.id}"/>
