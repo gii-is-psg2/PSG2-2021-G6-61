@@ -36,6 +36,7 @@
                 </td>
                 <td align="center">
                 	<a href="<spring:url value="/vets/${vet.id}/edit" htmlEscape="true" />"><span class="glyphicon glyphicon-pencil"></span></a>
+                	<a href="<spring:url value="/vets/${vet.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>
         </c:forEach>
