@@ -141,10 +141,11 @@ public class OwnerController {
 	}
 	
 	@GetMapping("/owners/{ownerId}/delete")
-	public ModelAndView deleteOwner(@PathVariable("ownerId") final int ownerId) {
-		final ModelAndView mav = new ModelAndView("redirect:/owners/find");
+	public String deleteOwner(@PathVariable("ownerId") final int ownerId, final Model model) {
 		ownerService.deleteById(ownerId);
-		return mav;
+		model.addAttribute("message", "OwnerDeletedSuccessful");
+		model.addAttribute("owner", new Owner());
+		return "owners/findOwners";
 	}
 
 }

@@ -134,7 +134,7 @@
                     </table>
                 </td>
                 <td align="center">
-			    	<a href="<spring:url value="/owners/${owner.id}/pets/${pet.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span></a>
+			    	<a style="text-decoration: none;" href="<spring:url value="/owners/${owner.id}/pets/${pet.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span><b style="margin-left: 1px;">Delete Pet</b></a>
 				</td>
             </tr>
 
