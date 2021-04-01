@@ -43,7 +43,7 @@
     <br/>
     <h2>Pets and Visits</h2>
 
-    <table class="table table-striped">
+    <table class="table table-striped">         
         <c:forEach var="pet" items="${owner.pets}">
 
             <tr>
@@ -97,7 +97,7 @@
                             <th>Check In</th>
                             <th>Check Out</th>
                             <th>Description</th>
-                            <th style="display:none;">Action</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <c:forEach var="book" items="${pet.books}">
@@ -106,7 +106,7 @@
                                 <td><petclinic:localDate date="${book.checkin}" pattern="yyyy-MM-dd"/></td>
                                 <td><petclinic:localDate date="${book.checkout}" pattern="yyyy-MM-dd"/></td>
                                 <td><c:out value="${book.details}"/></td>
-                                <td style="display:none;">
+                                <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/books/{bookId}/delete" var="deleteBookUrl">
                                     <spring:param name="ownerId" value="${owner.id}"/>
                                     <spring:param name="petId" value="${pet.id}"/>

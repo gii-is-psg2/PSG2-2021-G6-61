@@ -16,18 +16,22 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.component.BookValidator;
 import org.springframework.samples.petclinic.model.Book;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.BookService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RoomService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
@@ -89,11 +93,15 @@ public class BookController {
 	}
 	
 	@GetMapping(value = "/owners/{ownerId}/pets/{petId}/books/{bookId}/delete")
-	public String processDeleteBook	(@PathVariable("bookId") int bookId) {
-
+	public String processDeleteBook	(@PathVariable("bookId") int bookId) throws DataAccessException, DuplicatedPetNameException {
+			final Book reserva = bookService.findById(bookId).get();
+			final Set<Book> books = new HashSet<Book>(reserva.getPet().getBooks().stream().collect(Collectors.toSet()));
+			books.remove(reserva);
+			Pet pet = reserva.getPet();
+			pet.setBooks(books);
+			this.petService.savePet(pet);
 			this.bookService.deleteById(bookId);
 			return "redirect:/owners/{ownerId}";
-		
 	}
 
 }

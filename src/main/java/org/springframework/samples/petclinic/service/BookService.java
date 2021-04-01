@@ -21,7 +21,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Book;
 import org.springframework.samples.petclinic.repository.BookRepository;
-import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,13 +37,16 @@ public class BookService extends BaseService<Book>{
 	@Autowired
 	private BookRepository bookRepository;
 
-	private PetRepository petRepository;
-
 	
 	@Transactional(readOnly = true)
 	public Collection<Book> findBooksByPet(Integer petId) {
 		return bookRepository.findByPetId(petId);
 	}
+	
+//	@Transactional(readOnly = true)
+//	public Collection<Book> findBooks(Integer bookId) {
+//		return bookRepository.findById(petId);
+//	}
 	
 	@Transactional(readOnly = true)
 	public Collection<Book> findByRoomIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
@@ -59,6 +61,21 @@ public class BookService extends BaseService<Book>{
 	@Transactional(readOnly = true)
 	public Collection<Book> findByRoomIdAndCheckinBeforeAndCheckoutAfter(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
 		return bookRepository.findByRoomIdAndCheckinBeforeAndCheckoutAfter(roomId, checkIn, checkOut);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Book> findByPetIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+		return bookRepository.findByPetIdAndCheckinBetween(roomId, checkIn, checkOut);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Book> findByPetIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+		return bookRepository.findByPetIdAndCheckoutBetween(roomId, checkIn, checkOut);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Book> findByPetIdAndCheckinBeforeAndCheckoutAfter(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+		return bookRepository.findByPetIdAndCheckinBeforeAndCheckoutAfter(roomId, checkIn, checkOut);
 	}
 
 }

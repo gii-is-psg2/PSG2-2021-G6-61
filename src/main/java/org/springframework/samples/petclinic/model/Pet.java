@@ -19,6 +19,9 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,6 +45,8 @@ import java.util.Set;
  * @author Juergen Hoeller
  * @author Sam Brannen
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {
@@ -61,7 +66,7 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Book> books;
 
 	public void setBirthDate(LocalDate birthDate) {
