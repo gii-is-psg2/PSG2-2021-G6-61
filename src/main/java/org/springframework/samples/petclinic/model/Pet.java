@@ -64,7 +64,7 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Book> books;
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -76,7 +76,7 @@ public class Pet extends NamedEntity {
 		return this.type;
 	}
 
-	public void setType(PetType type) {
+	public void setType(final PetType type) {
 		this.type = type;
 	}
 	
@@ -89,7 +89,7 @@ public class Pet extends NamedEntity {
 		return this.owner;
 	}
 
-	protected void setOwner(Owner owner) {
+	protected void setOwner(final Owner owner) {
 		this.owner = owner;
 	}
 
@@ -100,17 +100,17 @@ public class Pet extends NamedEntity {
 		return this.visits;
 	}
 
-	protected void setVisitsInternal(Set<Visit> visits) {
+	protected void setVisitsInternal(final Set<Visit> visits) {
 		this.visits = visits;
 	}
 
 	public List<Visit> getVisits() {
-		List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
+		final List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}
 
-	public void addVisit(Visit visit) {
+	public void addVisit(final Visit visit) {
 		getVisitsInternal().add(visit);
 		visit.setPet(this);
 	}
@@ -122,7 +122,7 @@ public class Pet extends NamedEntity {
 		return this.books;
 		}
 	
-	public void addBook(Book book) {
+	public void addBook(final Book book) {
 		getBooksInternal().add(book);
 		book.setPet(this);
 	}
