@@ -12,9 +12,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 	
 	public List<Book> findByPetId(Integer petId);
 	
-	//Sin probar
-	//public List<Book> findByRoomIdAndCheckinBetweenOrCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut, LocalDate checkInBis, LocalDate checkOutBis);
 	public List<Book> findByRoomIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut);
 	public List<Book> findByRoomIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut);
 	public List<Book> findByRoomIdAndCheckinBeforeAndCheckoutAfter(Integer roomId, LocalDate checkIn, LocalDate checkOut);
+	
+	public List<Book> findByPetIdAndCheckinBeforeAndCheckoutAfter(Integer roomId, LocalDate checkIn,LocalDate checkOut);
+	public List<Book> findByPetIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut);
+	public List<Book> findByPetIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut);
 }

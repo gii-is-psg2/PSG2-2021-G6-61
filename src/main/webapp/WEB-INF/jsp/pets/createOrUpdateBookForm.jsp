@@ -41,12 +41,12 @@
             </tr>
         </table>
 
-        <form:form modelAttribute="book" class="form-horizontal">
+        <form:form modelAttribute="book" autocomplete="off" class="form-horizontal">
             <div class="form-group has-feedback">
            		<div class="control-group">
                     <petclinic:selectField name="room" label="Room Number " names="${rooms}" size="5"/>
               	</div>
-            	<petclinic:inputField label="Check In" name="checkin"/>
+            	<petclinic:inputField label="Check In"  name="checkin"/>
                 <petclinic:inputField label="Check Out" name="checkout"/>
                 <petclinic:inputField label="Description" name="details"/>
             </div>

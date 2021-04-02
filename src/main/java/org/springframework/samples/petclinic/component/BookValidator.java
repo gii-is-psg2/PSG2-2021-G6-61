@@ -55,6 +55,14 @@ public class BookValidator implements Validator{
 				}else if(bookService.findByRoomIdAndCheckinBeforeAndCheckoutAfter(book.getRoom().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
 					errors.rejectValue("room", "error","Ya está esa habitación revervada para esas fechas");
 				}
+				
+				if(bookService.findByPetIdAndCheckinBetween(book.getPet().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("checkin", "error", book.getPet().getName()+" ya tiene una reserva para esas fechas");
+				}else if(bookService.findByPetIdAndCheckoutBetween(book.getPet().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("checkin", "error", book.getPet().getName()+" ya tiene una reserva para esas fechas");
+				}else if(bookService.findByPetIdAndCheckinBeforeAndCheckoutAfter(book.getPet().getId(), book.getCheckin(), book.getCheckout()).size()>0) {
+					errors.rejectValue("checkin", "error", book.getPet().getName()+" ya tiene una reserva para esas fechas");
+				}
 				}
 	}
 	
