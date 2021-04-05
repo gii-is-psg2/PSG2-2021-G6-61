@@ -10,16 +10,16 @@
 	<div class="form-group">
         <div class="col-sm-offset-11">
         <a href="/vets/new">
-        	<button class="btn btn-default"><spring:message code="newVetButton" text="+New Vet"/></button>
+        	<button class="btn btn-default">+New Vet</button>
         </a>
     	</div>
     </div>
     <table id="vetsTable" class="table table-striped">
         <thead>
         <tr>
-            <th><spring:message code="name" text="Name"/></th>
-            <th><spring:message code="specialties" text="Specialties"/></th>
-            <th style="text-align: center;"><spring:message code="actions" text="Actions"/></th>
+            <th>Name</th>
+            <th>Specialties</th>
+            <th style="text-align: center;">Actions</th>
         </tr>
         </thead>
         <tbody>
