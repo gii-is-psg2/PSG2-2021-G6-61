@@ -16,6 +16,7 @@
             <th>City</th>
             <th style="width: 120px">Telephone</th>
             <th>Pets</th>
+            <th style="text-align: center;"><spring:message code="actions" text="Actions"/></th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +41,9 @@
                     <c:forEach var="pet" items="${owner.pets}">
                         <c:out value="${pet.name} "/>
                     </c:forEach>
+                </td>
+                <td align="center">
+                	<a href="<spring:url value="/owners/${owner.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span></a>
                 </td>
                 
       

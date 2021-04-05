@@ -16,30 +16,21 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Authorities;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -77,6 +68,8 @@ class VetServiceTests {
 
 	@Autowired
 	protected VetService vetService;	
+	
+	
 
 	@Test
 	void shouldFindVets() {
@@ -88,6 +81,82 @@ class VetServiceTests {
 		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
 		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
 	}
+	
+	@Test
+	@Transactional
+	public void shouldInsertVet() {
+		Collection<Vet> vets = this.vetService.findVets();
+		int found = vets.size();
 
+		Vet vet = new Vet();
+		vet.setFirstName("Leo");
+		vet.setLastName("Schultz");
+		
+		Collection<Specialty> specialties = this.vetService.findSpecialties();
+		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
+		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 2));
+                
+		this.vetService.save(vet);
+		assertThat(vet.getId().longValue()).isNotEqualTo(0);
+		
+		vets = this.vetService.findVets();
+		assertThat(vets.size()).isEqualTo(found + 1);
+	}
+	
+	@Test
+	@Transactional
+	public void shouldNotInsertVetsEmptyAttributes() {
+
+		Vet vet = new Vet();
+		vet.setFirstName("");
+		vet.setLastName("");
+		
+		Collection<Specialty> specialties = this.vetService.findSpecialties();
+		
+		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
+		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 2));    
+		
+		assertThrows(ConstraintViolationException.class, () -> { this.vetService.save(vet); } );
+		
+		
+		//No debería de dejar meter un nombre formado por números
+		Vet vet2 = new Vet();
+		vet2.setFirstName("123213123");
+		vet2.setLastName("12312312");
+		
+		vet2.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
+		vet2.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 2));    
+		
+		this.vetService.save(vet2);
+		
+	}
+	
+
+	@Test
+	@Transactional
+	void shouldUpdateVet() {
+		Vet vet = this.vetService.findById(1).get();
+		String oldLastName = vet.getLastName();
+		String newLastName = oldLastName + "X";
+
+		vet.setLastName(newLastName);
+		this.vetService.save(vet);
+
+		Collection<Specialty> specialties = this.vetService.findSpecialties();
+		
+		int found = vet.getNrOfSpecialties();
+		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
+		
+		this.vetService.save(vet);
+		
+		// retrieving new name from database
+		vet = this.vetService.findById(1).get();
+		assertThat(vet.getLastName()).isEqualTo(oldLastName+'X');
+
+		// retrieving new Specialty from database
+		vet = this.vetService.findById(1).get();
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(found+1);
+		assertThat(vet.getSpecialties().get(0)).isEqualTo(EntityUtils.getById(specialties, Specialty.class, 1));
+	}
 
 }

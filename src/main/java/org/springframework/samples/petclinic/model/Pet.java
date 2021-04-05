@@ -19,6 +19,9 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,8 +37,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * Simple business object representing a pet.
@@ -44,6 +45,8 @@ import javax.persistence.TemporalType;
  * @author Juergen Hoeller
  * @author Sam Brannen
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {
@@ -62,8 +65,11 @@ public class Pet extends NamedEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "pet", fetch = FetchType.EAGER)
+	private Set<Book> books;
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -75,15 +81,20 @@ public class Pet extends NamedEntity {
 		return this.type;
 	}
 
-	public void setType(PetType type) {
+	public void setType(final PetType type) {
 		this.type = type;
+	}
+	
+
+	public Set<Book> getBooks() {
+		return books;
 	}
 
 	public Owner getOwner() {
 		return this.owner;
 	}
 
-	protected void setOwner(Owner owner) {
+	protected void setOwner(final Owner owner) {
 		this.owner = owner;
 	}
 
@@ -94,19 +105,30 @@ public class Pet extends NamedEntity {
 		return this.visits;
 	}
 
-	protected void setVisitsInternal(Set<Visit> visits) {
+	protected void setVisitsInternal(final Set<Visit> visits) {
 		this.visits = visits;
 	}
 
 	public List<Visit> getVisits() {
-		List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
+		final List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}
 
-	public void addVisit(Visit visit) {
+	public void addVisit(final Visit visit) {
 		getVisitsInternal().add(visit);
 		visit.setPet(this);
 	}
-
+	
+	protected Set<Book> getBooksInternal() {
+		if (this.books == null) {
+		this.books = new HashSet<>();
+		}
+		return this.books;
+		}
+	
+	public void addBook(final Book book) {
+		getBooksInternal().add(book);
+		book.setPet(this);
+	}
 }

@@ -15,17 +15,9 @@
  */
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Specialty;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.repository.VetRepository;
+import org.springframework.samples.petclinic.model.Room;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -34,25 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class VetService extends BaseService<Vet>{
-
-	private VetRepository vetRepository;
-
-
-	@Autowired
-	public VetService(VetRepository vetRepository) {
-		this.vetRepository = vetRepository;
-	}		
-
-	@Transactional(readOnly = true)	
-	public Collection<Vet> findVets() throws DataAccessException {
-		return vetRepository.findAll();
-	}
-
-	@Transactional(readOnly = true)
-	public Collection<Specialty> findSpecialties() throws DataAccessException{
-		return vetRepository.findSpecialties();
-	}
-
+public class RoomService extends BaseService<Room>{
+	
 
 }
