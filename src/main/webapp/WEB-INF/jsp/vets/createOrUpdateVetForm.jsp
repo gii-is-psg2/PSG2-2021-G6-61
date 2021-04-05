@@ -9,7 +9,7 @@
 <petclinic:layout pageName="vets">
 
     <h2>
-        <c:if test="${vet['new']}"> <spring:message code="new" text="New"/> </c:if> <spring:message code="vet" text="Vet"/>
+        <c:if test="${vet['new']}"> <spring:message code="new" text="New"/> </c:if> Vet
     </h2>
     <form:form modelAttribute="vet" class="form-horizontal" id="add-vet-form">
         <div class="form-group has-feedback">
@@ -21,17 +21,17 @@
             <div class="col-sm-offset-2 col-sm-7">
                 <c:choose>
                     <c:when test="${vet['new']}">
-                        <button class="btn btn-default" type="submit"><spring:message code="saveVetButton" text="Save Vet"/></button>
+                        <button class="btn btn-default" type="submit">Save Vet</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit"><spring:message code="updateVetButton" text="Update Vet"/></button>
+                        <button class="btn btn-default" type="submit">Update Vet</button>
                     </c:otherwise>
                 </c:choose>
             </div>
             <div class="col-sm-offset-2 col-sm-1">
 				<a href="/vets">
 					<button class="btn btn-default" type="button">
-						<spring:message code="cancel" text="Cancel" />
+						Cancel
 					</button>
 				</a>
 			</div> 
