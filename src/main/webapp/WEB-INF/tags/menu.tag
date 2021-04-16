@@ -31,6 +31,8 @@
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
 				</petclinic:menuItem>
+				
+				
 
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
@@ -45,7 +47,7 @@
 				</petclinic:menuItem>
 				
 				<petclinic:menuItem active="${name eq 'causas'}" url="/causas"
-					title="causes page">
+					title="causes">
 					<i class="fas fa-ribbon"></i>
 					<span>Causes</span>
 				</petclinic:menuItem>

@@ -77,5 +77,9 @@ INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (3, 8, 1, '
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (4, 7, 3, '2021-01-04', '2021-01-10','spayed');
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (5, 1, 1, '2021-04-04', '2021-04-14','spayed');
 
-INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (1, 'causa 1', 'causa 1', 10000, 'unicef');
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (1, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 50000, 'Asociación de animales de Sevilla');
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (2, 'Defensa Felina', 'Defensa y protección de los gatos callejeros en la ciudad de Sevilla', 20000, 'Defensa Felina');
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (3, 'Asesoramiento animal', 'Asesoramiento y acción de defensa de los animales', 10000, 'FAADA');
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (4, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 70000, 'Asociación de animales de España');
+
 

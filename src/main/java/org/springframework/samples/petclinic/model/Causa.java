@@ -18,10 +18,11 @@ package org.springframework.samples.petclinic.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,14 +43,12 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "causas", uniqueConstraints = @UniqueConstraint(columnNames = { "nombre" }))
+@Table(name = "causas")
 public class Causa extends BaseEntity {
 
-	@Column(name = "nombre")
 	@NotBlank
 	private String nombre;
 	
-	@Column(name = "descripcion")
 	private String descripcion;
 	
 	@Column(name = "objetivo_presupuestario")
@@ -57,8 +56,8 @@ public class Causa extends BaseEntity {
 	@Min(0)
 	private Double objetivoPresupuestario;
 	
-	@Column(name = "organizacion")
 	@NotBlank
+	@Length(min=1, max=100)
 	private String organizacion;
 	
 	@Column(name = "abierta", columnDefinition = "integer default 1")
