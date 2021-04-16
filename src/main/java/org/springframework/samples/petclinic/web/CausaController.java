@@ -25,7 +25,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.service.CausaService;
-import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -41,14 +40,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class CausaController {
 
-	private final PetService petService;
 	private final CausaService causaService;
 
 	
 
 	@Autowired
-	public CausaController(PetService petService, CausaService casuaService) {
-		this.petService = petService;
+	public CausaController(CausaService casuaService) {
 		this.causaService = casuaService;
 	}
 	

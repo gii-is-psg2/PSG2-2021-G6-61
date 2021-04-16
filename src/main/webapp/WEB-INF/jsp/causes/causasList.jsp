@@ -5,16 +5,16 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="causas">
-    <h2>Veterinarians</h2>
+    <h2>Causes list</h2>
 	
 	<div class="form-group">
         <div class="col-sm-offset-11">
         <a href="/causas/new">
-        	<button class="btn btn-default">+New Cause</button>
+        	<button class="btn btn-default">+ New Cause</button>
         </a>
     	</div>
     </div>
-    <table id="vetsTable" class="table table-striped">
+    <table id="causasTable" class="table table-striped">
         <thead>
         <tr>
             <th>Name</th>
