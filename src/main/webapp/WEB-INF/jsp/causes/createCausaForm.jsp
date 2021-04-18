@@ -13,7 +13,7 @@
     <form:form modelAttribute="causa" class="form-horizontal" id="add-causa-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="nombre"/>
-            <petclinic:inputField label="Desciption" name="descripcion"/>
+            <petclinic:inputField label="Description" name="descripcion"/>
             <petclinic:inputField label="Budget Target" name="objetivoPresupuestario"/>
             <petclinic:inputField label="Active non profit organization" name="organizacion"/>
 
