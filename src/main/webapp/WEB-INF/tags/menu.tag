@@ -46,12 +46,14 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'causas'}" url="/causas"
+				<sec:authorize access="hasAnyAuthority('client','admin')">
+				<petclinic:menuItem  active="${name eq 'causas'}" url="/causas"
 					title="causes">
 					<i class="fas fa-ribbon"></i>
 					<span>Causes</span>
 				</petclinic:menuItem>
-
+				</sec:authorize>
+				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>

@@ -16,7 +16,6 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
@@ -65,6 +64,10 @@ public class OwnerService extends BaseService<Owner>{
 		userService.saveUser(owner.getUser());
 		//creating authorities
 		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
-
+		
+		if(owner.isEsCliente()) {
+			authoritiesService.saveAuthorities(owner.getUser().getUsername(), "client");
+		}	
+		
+	}
 }

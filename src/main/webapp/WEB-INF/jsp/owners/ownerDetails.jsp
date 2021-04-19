@@ -26,6 +26,17 @@
             <th>Telephone</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>
+        <tr>
+        	<th>Client</th>
+            <td>
+            <c:if test="${owner.esCliente == true}">
+                		<c:out value="Yes"/>
+                	</c:if>
+                	<c:if test="${owner.esCliente == false}">
+                		<c:out value="No"/>
+                	</c:if>
+            </td>
+        </tr>
     </table>
 
     <spring:url value="{ownerId}/edit" var="editUrl">
