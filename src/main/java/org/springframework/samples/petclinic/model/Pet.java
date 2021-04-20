@@ -62,6 +62,10 @@ public class Pet extends NamedEntity {
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
+	
+	@Column(name = "en_adopcion")
+	private Boolean enAdopcion;
+
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;
@@ -69,6 +73,14 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Book> books;
 
+	public Boolean getEnAdopcion() {
+		return this.enAdopcion;
+	}
+	
+	public void setEnAdopcion(final Boolean enAdopcion) {
+		this.enAdopcion = false;
+	}
+	
 	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}

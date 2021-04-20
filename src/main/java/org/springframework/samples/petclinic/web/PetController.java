@@ -47,6 +47,7 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNam
 public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+	private static final String VIEWS_ADOPTIONS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdateAdoptionsForm";
 
 	private final PetService petService;
     private final OwnerService ownerService;
@@ -160,5 +161,16 @@ public class PetController {
 			return "redirect:/owners/{ownerId}";
 		}
 	}
+        
+        
+        @PostMapping(value = "/pets/adoptions")
+    	public String processAdoptionsForm(final Owner owner, @Valid final Pet pet, final BindingResult result, final ModelMap model) {		
+    		if (result.hasErrors()) {
+    			model.put("pet", pet);
+    			return VIEWS_ADOPTIONS_CREATE_OR_UPDATE_FORM;
+    		}
+                        return "redirect:/owners/{en_adopcion}";
+    	}
+
 
 }
