@@ -19,6 +19,14 @@
             <petclinic:inputField label="Telephone" name="telephone"/>
             <petclinic:inputField label="Username" name="user.username"/>
             <petclinic:inputField label="Password" name="user.password"/>
+             <c:choose>
+	            <c:when test="${owner['new']}"> 
+	            	<petclinic:checkboxField label="Client of the Pet Clinic" name="esCliente"/>
+	            </c:when>
+	            <c:otherwise>
+	                <form:checkbox class="form-control" path="esCliente" style="display:none;width:20px; height:20px;"/>
+	            </c:otherwise>
+            </c:choose>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
