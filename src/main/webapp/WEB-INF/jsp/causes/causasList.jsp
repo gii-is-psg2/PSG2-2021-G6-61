@@ -37,12 +37,14 @@
                     <c:out value="${cause.objetivoPresupuestario}"/>
                 </td>
                 <td>
-                    
+                    <c:out value="${cause.acumulado}"/>
                 </td>
                
                 <td align="center">
                 	<a href="<spring:url value="/causas/${cause.id}" htmlEscape="true" />"><i class="fas fa-eye"></i></a>
-					
+					<c:if test="${!cause.finalizada}">
+						<a href="<spring:url value="/causas/${cause.id}/newDonation" htmlEscape="true" />"><span class="glyphicon glyphicon-piggy-bank"></span></a>
+					</c:if>
                 </td> 
             </tr>
         </c:forEach>
