@@ -39,6 +39,14 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
+				
+				<sec:authorize access="hasAnyAuthority('owner','admin')">
+				<petclinic:menuItem active="${name eq 'adoptions'}" url="/adoptions"
+					title="adoptions">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span>Adopciones</span>
+				</petclinic:menuItem>
+				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">

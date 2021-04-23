@@ -63,7 +63,7 @@ public class Pet extends NamedEntity {
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 	
-	@Column(name = "en_adopcion")
+	@Column(name = "en_adopcion", columnDefinition = "boolean default false")
 	private Boolean enAdopcion;
 
 

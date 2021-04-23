@@ -15,11 +15,13 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.security.Principal;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -66,5 +68,10 @@ public class OwnerService extends BaseService<Owner>{
 		//creating authorities
 		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
 	}		
+	
+//	Principal principal = request.getUserPrincipal();
+//	String username =  principal.getName(); 
+//	User  user = userService.findByUsername(username);
+//	Owner owner = ownerService.findOwnerByUser(user);
 
 }

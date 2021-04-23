@@ -105,6 +105,7 @@ public class PetController {
 		else {
                     try{
                     	owner.addPet(pet);
+                    	pet.setEnAdopcion(false);
                     	this.petService.savePet(pet);
                     }catch(final DuplicatedPetNameException ex){
                         result.rejectValue("name", "duplicate", "already exists");
@@ -160,17 +161,6 @@ public class PetController {
                     }
 			return "redirect:/owners/{ownerId}";
 		}
-	}
-        
-        
-        @PostMapping(value = "/pets/adoptions")
-    	public String processAdoptionsForm(final Owner owner, @Valid final Pet pet, final BindingResult result, final ModelMap model) {		
-    		if (result.hasErrors()) {
-    			model.put("pet", pet);
-    			return VIEWS_ADOPTIONS_CREATE_OR_UPDATE_FORM;
-    		}
-                        return "redirect:/owners/{en_adopcion}";
-    	}
-
-
+	
+     }
 }
