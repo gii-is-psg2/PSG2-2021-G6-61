@@ -78,7 +78,7 @@ public class Pet extends NamedEntity {
 	}
 	
 	public void setEnAdopcion(final Boolean enAdopcion) {
-		this.enAdopcion = false;
+		this.enAdopcion = enAdopcion;
 	}
 	
 	public void setBirthDate(final LocalDate birthDate) {

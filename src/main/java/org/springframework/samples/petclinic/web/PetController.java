@@ -47,7 +47,6 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNam
 public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
-	private static final String VIEWS_ADOPTIONS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdateAdoptionsForm";
 
 	private final PetService petService;
     private final OwnerService ownerService;

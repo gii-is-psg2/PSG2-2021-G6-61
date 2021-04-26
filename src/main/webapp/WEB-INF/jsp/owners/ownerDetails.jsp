@@ -84,20 +84,18 @@
                                 </spring:url>
                                 <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
                             </td>
-                             <c:if test="${pet.enAdopcion==false}">
+                             <c:if test="${pet.enAdopcion==false && ownerLogado}">
                               <td>
-                                <spring:url value="/adoptions/{petId}/edit" var="adoptionsUrl">
-                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                <spring:url value="/adoptions/{petId}/enAdopcion" var="adoptionsUrl">
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
                                 <a href="${fn:escapeXml(adoptionsUrl)}">Proponer en adopción</a>                         
                          	   </td>
                               </c:if>
-                             <c:if test="${pet.enAdopcion==true}">
+                             <c:if test="${pet.enAdopcion==true && ownerLogado}">
                               
                              <td>
-                                <spring:url value="/adoptions/{petId}/delete" var="adoptionsUrl">
-                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                <spring:url value="/adoptions/{petId}/noEnAdopcion" var="adoptionsUrl">
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
                                 <a href="${fn:escapeXml(adoptionsUrl)}">Cancelar adopción</a>

@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${adoptions}" var="adoption">
+        <c:forEach items="${pets}" var="adoption">
             <tr>
                 <td>
                     <c:out value="${adoption.name}"/>
@@ -27,7 +27,7 @@
                     <c:out value="${adoption.type}"/>
                 </td>
                 <td>
-                    <c:out value="${adoption.owner.name}"/>
+                    <c:out value="${adoption.owner.user.username}"/>
                 </td>
             
                 <td align="center">

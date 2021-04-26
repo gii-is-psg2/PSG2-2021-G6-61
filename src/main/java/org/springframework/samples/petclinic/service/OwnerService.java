@@ -59,6 +59,11 @@ public class OwnerService extends BaseService<Owner>{
 		return ownerRepository.findByLastName(lastName);
 	}
 
+	@Transactional(readOnly = true)
+	public Owner findOwnerByUser(final User user) throws DataAccessException {
+		return ownerRepository.findOwnerByUser(user);
+	}
+
 	@Transactional
 	public void saveOwner(final Owner owner) throws DataAccessException {
 		//creating owner
@@ -69,9 +74,4 @@ public class OwnerService extends BaseService<Owner>{
 		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
 	}		
 	
-//	Principal principal = request.getUserPrincipal();
-//	String username =  principal.getName(); 
-//	User  user = userService.findByUsername(username);
-//	Owner owner = ownerService.findOwnerByUser(user);
-
 }
