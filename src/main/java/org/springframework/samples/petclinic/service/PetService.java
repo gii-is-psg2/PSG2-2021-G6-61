@@ -16,9 +16,11 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
@@ -79,5 +81,11 @@ public class PetService extends BaseService<Pet>{
 	public Collection<Visit> findVisitsByPetId(final int petId) {
 		return visitRepository.findByPetId(petId);
 	}
+	
+	@Transactional(readOnly = true)
+	public List <Pet> findByEnAdopcionTrueAndOwnerNotLike(final Owner owner) throws DataAccessException {
+		return petRepository.findByEnAdopcionTrueAndOwnerNotLike(owner);
+	}
+
 
 }

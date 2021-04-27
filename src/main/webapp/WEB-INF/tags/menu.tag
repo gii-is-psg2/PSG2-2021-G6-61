@@ -46,6 +46,15 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
+
+				<sec:authorize access="hasAnyAuthority('owner','admin')">
+				<petclinic:menuItem active="${name eq 'adoptions'}" url="/adoptions"
+					title="adoptions">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span>Adopciones</span>
+				</petclinic:menuItem>
+				</sec:authorize>
+
 				<sec:authorize access="hasAnyAuthority('client','admin')">
 				<petclinic:menuItem  active="${name eq 'causas'}" url="/causas"
 					title="causes">
@@ -53,7 +62,7 @@
 					<span>Causes</span>
 				</petclinic:menuItem>
 				</sec:authorize>
-				
+
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
@@ -72,7 +81,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>Â 
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
