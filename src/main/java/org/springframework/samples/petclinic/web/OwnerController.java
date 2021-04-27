@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -139,9 +140,10 @@ public class OwnerController {
 	 */
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") final int ownerId, 
-			HttpServletRequest request) {
+			HttpServletRequest request, @RequestParam(value = "message", required = false) final String message) {
 		final ModelAndView mav = new ModelAndView("owners/ownerDetails");
 		Owner owner = this.ownerService.findOwnerById(ownerId);
+		mav.addObject("message",message);
 		mav.addObject(owner);
 		mav.addObject("ownerLogado", request.getUserPrincipal().getName().equals(owner.getUser().getUsername()));
 		return mav;
