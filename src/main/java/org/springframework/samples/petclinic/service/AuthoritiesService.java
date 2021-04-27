@@ -16,8 +16,6 @@
 package org.springframework.samples.petclinic.service;
 
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Authorities;
@@ -52,9 +50,9 @@ public class AuthoritiesService {
 	@Transactional
 	public void saveAuthorities(String username, String role) throws DataAccessException {
 		Authorities authority = new Authorities();
-		Optional<User> user = userService.findUser(username);
-		if(user.isPresent()) {
-			authority.setUser(user.get());
+		User user = userService.findUser(username);
+		if(user != null) {
+			authority.setUser(user);
 			authority.setAuthority(role);
 			//user.get().getAuthorities().add(authority);
 			authoritiesRepository.save(authority);

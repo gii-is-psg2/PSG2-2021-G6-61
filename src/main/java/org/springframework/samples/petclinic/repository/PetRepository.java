@@ -20,6 +20,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 
@@ -45,5 +46,5 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */
 	Pet findById(int id) throws DataAccessException;
-
+	List<Pet> findByEnAdopcionTrueAndOwnerNotLike(Owner owner);
 }

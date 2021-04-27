@@ -104,6 +104,7 @@ public class PetController {
 		else {
                     try{
                     	owner.addPet(pet);
+                    	pet.setEnAdopcion(false);
                     	this.petService.savePet(pet);
                     }catch(final DuplicatedPetNameException ex){
                         result.rejectValue("name", "duplicate", "already exists");
@@ -159,6 +160,6 @@ public class PetController {
                     }
 			return "redirect:/owners/{ownerId}";
 		}
-	}
-
+	
+     }
 }

@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 
 /**
@@ -41,6 +42,8 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 	@Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
 	public Collection<Owner> findByLastName(@Param("lastName") String lastName);
 
+	
+	public Owner findOwnerByUser(@Param("user") User user);
 
 	/**
 	 * Retrieve an <code>Owner</code> from the data store by id.
