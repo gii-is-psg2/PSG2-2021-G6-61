@@ -25,10 +25,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.service.CausaService;
+import org.springframework.samples.petclinic.service.DonationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -41,12 +46,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CausaController {
 
 	private final CausaService causaService;
-
+	private final DonationService donationService;
 	
 
 	@Autowired
-	public CausaController(CausaService casuaService) {
+	public CausaController(CausaService casuaService, DonationService donationService) {
 		this.causaService = casuaService;
+		this.donationService = donationService;
 	}
 	
 	@ModelAttribute("causas")
@@ -69,9 +75,11 @@ public class CausaController {
 	}
 	
 	@GetMapping(value = "/causas/{causaId}" )
-	public String showCausasDetail(@PathVariable("causaId") final int causaId, final ModelMap model) {
+	public String showCausasDetail(@PathVariable("causaId") final int causaId, final ModelMap model,@RequestParam(value = "message", required = false) final String message) {
 		final Causa causa = this.causaService.findById(causaId).get();
 		model.put("causa", causa);
+		model.put("donaciones", this.donationService.findByCausa(causaId));
+		model.put("message", message);
 		return "causes/causaDetail";
 	}
 	
@@ -89,7 +97,9 @@ public class CausaController {
 		}
 		else {
 			//creating owner, user and authorities
+			causa.setFinalizada(false);
 			causa.setAbierta(true);
+			causa.setAcumulado(0.0);
 			this.causaService.save(causa);
 			redirectAttributes.addAttribute("message", "CausaSavedSuccessful");
 			return "redirect:/causas";
