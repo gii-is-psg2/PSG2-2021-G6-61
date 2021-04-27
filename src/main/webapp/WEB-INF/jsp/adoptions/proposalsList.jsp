@@ -6,37 +6,35 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <petclinic:layout pageName="adoptions">
-    <h2>Adoptions</h2>
+    <h2>Adoption Proposals for <c:out value="${pet.name}"/></h2>
 
     <table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Name Pet</th>
-            <th style="width: 200px;">Type </th>
-            <th>Actual Owner Name</th>
+            <th style="width: 10%;">User</th>
+            <th style="width: 30%;">Owner's first name and last name</th>
+            <th style="width: 50%;">Description</th>
             <th style="text-align: center;"><spring:message code="actions" text="Actions"/></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${pets}" var="adoption">
+        <c:forEach items="${propuestas}" var="propuesta">
             <tr>
                 <td>
-                    <c:out value="${adoption.name}"/>
+                    <c:out value="${propuesta.owner.user.username}"/>
                 </td>
                 <td>
-                    <c:out value="${adoption.type}"/>
+                    <c:out value="${propuesta.owner.firstName} ${propuesta.owner.lastName}"/>
                 </td>
                 <td>
-                    <c:out value="${adoption.owner.user.username}"/>
+                    <c:out value="${propuesta.description}"/>
                 </td>
             
                 <td align="center">
-               		<sec:authorize access="hasAnyAuthority('owner')">
-	                    <spring:url value="/proposals/{petId}/new" var="proposalURL">
-	                    	<spring:param name="petId" value="${adoption.id}"/>
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(proposalURL)}"><span class="glyphicon glyphicon-transfer" title="Propose adoption"></span></a>   
-	                </sec:authorize>        
+	            	<spring:url value="/proposals/{proposalId}/accept" var="proposalAcceptURL">
+	                	<spring:param name="proposalId" value="${propuesta.id}"/>
+	                </spring:url>
+	                <a href="${fn:escapeXml(proposalAcceptURL)}"><span class="glyphicon glyphicon-ok" title="Accept proposal"></span></a>        
                 </td>
             </tr>
         </c:forEach>

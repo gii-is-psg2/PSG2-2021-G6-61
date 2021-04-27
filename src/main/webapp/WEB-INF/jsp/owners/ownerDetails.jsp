@@ -106,6 +106,8 @@
                              <c:if test="${pet.enAdopcion==true && ownerLogado}">
                               
                              <td>
+                                
+                                
                                 <spring:url value="/adoptions/{petId}/noEnAdopcion" var="adoptionsUrl">
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
@@ -164,6 +166,13 @@
                 </td>
                 <td align="center">
 			    	<a style="text-decoration: none;" href="<spring:url value="/owners/${owner.id}/pets/${pet.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span><b style="margin-left: 1px;">Delete Pet</b></a>
+			    	<br>
+			    	<c:if test="${pet.enAdopcion==true && ownerLogado}">
+				    	<spring:url value="/proposals/{petId}/list" var="adoptionsListUrl">
+	                    	<spring:param name="petId" value="${pet.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(adoptionsListUrl)}"><span class="glyphicon glyphicon-envelope" title="Adoption proposals"></span><b style="margin-left: 2px;">Adoption proposals</b></a>
+			    	</c:if>
 				</td>
             </tr>
 

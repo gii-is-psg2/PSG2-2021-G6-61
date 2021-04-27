@@ -84,12 +84,12 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (4, 'Je
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (5, 'Iggy', '2010-11-30', 3, 4, false);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (6, 'George', '2010-01-20', 4, 5, true);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (7, 'Samantha', '2012-09-04', 1, 6, false);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (8, 'Max', '2012-09-04', 1, 6, false);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (8, 'Max', '2012-09-04', 1, 6, true);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (9, 'Lucky', '2011-08-06', 5, 7, false);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (10, 'Mulligan', '2007-02-24', 2, 8, true);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (11, 'Freddy', '2010-03-09', 5, 9, false);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (12, 'Lucky', '2010-06-24', 2, 10, false);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (13, 'Sly', '2012-06-08', 1, 10, false);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id,en_adopcion) VALUES (13, 'Sly', '2012-06-08', 1, 10, true);
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
@@ -115,5 +115,12 @@ INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) V
 INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (2, 'Defensa Felina', 'Defensa y protección de los gatos callejeros en la ciudad de Sevilla', 20000, 'Defensa Felina');
 INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (3, 'Asesoramiento animal', 'Asesoramiento y acción de defensa de los animales', 10000, 'FAADA');
 INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (4, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 70000, 'Asociación de animales de España');
+
+INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (1,'Tendrá todos los cuidados que una mascota deba tener',3,2);
+INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (2,'Tendrá todos los cuidados posibles',13,4);
+INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (3,'Lo cuidaré como a todas mis mascotas',6,1);
+INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (4,'Tendrá una comida diaria',10,10);
+INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (5,'Tendrá una comida diaria con opción a paseo si se porta bien',8,7);
+
 
 
