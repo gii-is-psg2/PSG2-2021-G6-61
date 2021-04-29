@@ -111,16 +111,19 @@ INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (3, 8, 1, '
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (4, 7, 3, '2021-01-04', '2021-01-10','spayed');
 INSERT INTO books(id,pet_id,room_id,checkin,checkout,details) VALUES (5, 1, 1, '2021-04-04', '2021-04-14','spayed');
 
-INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (1, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 50000, 'Asociación de animales de Sevilla');
-INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (2, 'Defensa Felina', 'Defensa y protección de los gatos callejeros en la ciudad de Sevilla', 20000, 'Defensa Felina');
-INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (3, 'Asesoramiento animal', 'Asesoramiento y acción de defensa de los animales', 10000, 'FAADA');
-INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion) VALUES (4, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 70000, 'Asociación de animales de España');
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion,acumulado) VALUES (1, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 50000, 'Asociación de animales de Sevilla',12167);
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion,acumulado) VALUES (2, 'Defensa Felina', 'Defensa y protección de los gatos callejeros en la ciudad de Sevilla', 20000, 'Defensa Felina',402.5);
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion,acumulado) VALUES (3, 'Asesoramiento animal', 'Asesoramiento y acción de defensa de los animales', 10000, 'FAADA',12.75);
+INSERT INTO causas(id,nombre,descripcion,objetivo_presupuestario,organizacion,acumulado) VALUES (4, 'Dar hogar a animales abandonados', 'Buscan y cuidan animales abandonados en la ciudad de Sevilla mientras se encuentra a una familia de adopción', 70000, 'Asociación de animales de España',85);
+
+INSERT INTO donaciones(id,donante,causa_id,cantidad,fecha) VALUES (1,'owner1',1,104,'2021-01-08');
+INSERT INTO donaciones(id,donante,causa_id,cantidad,fecha) VALUES (2,'owner4',1,12063,'2021-03-14');
+INSERT INTO donaciones(id,donante,causa_id,cantidad,fecha) VALUES (3,'owner2',2,402.5,'2021-03-17');
+INSERT INTO donaciones(id,donante,causa_id,cantidad,fecha) VALUES (4,'owner6',3,12.75,'2021-04-09');
+INSERT INTO donaciones(id,donante,causa_id,cantidad,fecha) VALUES (5,'owner9',4,85,'2021-04-21');
 
 INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (1,'Tendrá todos los cuidados que una mascota deba tener',3,2);
 INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (2,'Tendrá todos los cuidados posibles',13,4);
 INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (3,'Lo cuidaré como a todas mis mascotas',6,1);
 INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (4,'Tendrá una comida diaria',10,10);
 INSERT INTO propuestas(id,description,pet_id,owner_id) VALUES (5,'Tendrá una comida diaria con opción a paseo si se porta bien',8,7);
-
-
-

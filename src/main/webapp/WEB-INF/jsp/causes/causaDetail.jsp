@@ -5,10 +5,13 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="causas">
-    <h2>Cause</h2>
+    <h2>Cause<c:if test="${causa.finalizada}"> (Finished)</c:if></h2>
 	
 	<div class="form-group">
-        <div class="col-sm-offset-11">
+        <div class="col-sm-offset-9">
+        <c:if test="${!cause.finalizada}">
+			<a href="<spring:url value="/causas/${causa.id}/newDonation" htmlEscape="true" />"><button class="btn btn-default">New donation</button></a>
+		</c:if>
         <a href="/causas">
         	<button class="btn btn-default">Go back to list</button>
         </a>
@@ -30,7 +33,7 @@
         </tr>
         <tr>
             <th>Budget Achieved</th>
-            <td></td>
+            <td><c:out value="${causa.acumulado}"/></td>
         </tr>
         <tr>
             <th>Active non profit organization</th>
@@ -42,14 +45,19 @@
     <table id="donationsTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Atributo donacion</th>
-            <th>Atributo donacion</th>
-            <th>Atributo donacion</th>
-            <th style="text-align: center;">Actions</th>
+            <th>Date</th>
+            <th>Donor</th>
+            <th>Quantity</th>
         </tr>
         </thead>
         <tbody>
-    
+    		<c:forEach items="${donaciones}" var="donaciones">
+    			<tr>
+    				<td><c:out value="${donaciones.fecha}"></c:out></td>
+    				<td><c:out value="${donaciones.donante}"></c:out></td>
+    				<td><c:out value="${donaciones.cantidad}"></c:out></td>
+    			</tr>
+    		</c:forEach>
         </tbody>
     </table>
 </petclinic:layout>

@@ -15,8 +15,12 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -56,11 +60,19 @@ public class Causa extends BaseEntity {
 	@Min(0)
 	private Double objetivoPresupuestario;
 	
+	@Column(columnDefinition="Decimal(10,2) default 0.00")
+	private Double acumulado;
+	
 	@NotBlank
 	@Length(min=1, max=100)
 	private String organizacion;
 	
-	@Column(name = "abierta", columnDefinition = "integer default 1")
+	@Column(name = "abierta", columnDefinition = "boolean default true")
 	private Boolean abierta;
 	
+	@OneToMany(mappedBy="causa", cascade = CascadeType.ALL)
+	private Set<Donation> donaciones;
+	
+	@Column(columnDefinition="boolean default false")
+	private Boolean finalizada;
 }
