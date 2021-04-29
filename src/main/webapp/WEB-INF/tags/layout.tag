@@ -1,36 +1,50 @@
-<%@ tag trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ tag trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ attribute name="pageName" required="true" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ attribute name="pageName" required="true"%>
 <%@ attribute name="customScript" required="false" fragment="true"%>
 
 <!doctype html>
 <html>
-<petclinic:htmlHeader/>
+<petclinic:htmlHeader />
 
 <body>
-<petclinic:bodyHeader menuName="${pageName}"/>
+	<petclinic:bodyHeader menuName="${pageName}" />
 
-<div class="container-fluid">
-    <div class="container xd-container">
-	<c:if test="${not empty message}" >
-	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert">
-  		<!--<c:out value="${message}"></c:out> -->
-  		<fmt:message key="${message}"/>
-   		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    		<span aria-hidden="true">&times;</span>
-  		</button> 
+	<div class="container-fluid">
+		<div class="container xd-container">
+			<c:if test="${not empty message}">
+				<div
+					class="alert alert-${not empty messageType ? messageType : 'info'}"
+					role="alert">
+					<!--<c:out value="${message}"></c:out> -->
+					<fmt:message key="${message}" />
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</c:if>
+			<c:if test="${not empty confirmacion}">
+				<div
+					class="alert alert-${not empty messageType ? messageType : 'info'}"
+					role="alert">
+					<span>${confirmacion.texto}</span> <a
+						href="${confirmacion.url}${confirmacion.entity.id}?data=${confirmacion.data}">
+						<button class="btn btn-default">Accept</button>
+					</a>
+					<button type="button" data-dismiss="alert" aria-label="Close">Cancel
+					</button>
+				</div>
+			</c:if>
+			<jsp:doBody />
+
+			<petclinic:pivotal />
+		</div>
 	</div>
-	</c:if>
-
-        <jsp:doBody/>
-
-        <petclinic:pivotal/>
-    </div>
-</div>
-<petclinic:footer/>
-<jsp:invoke fragment="customScript" />
+	<petclinic:footer />
+	<jsp:invoke fragment="customScript" />
 
 </body>
 

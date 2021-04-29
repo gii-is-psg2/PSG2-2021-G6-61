@@ -67,19 +67,21 @@ public class CausaController {
 
 	
 	@GetMapping(value = { "/causas" })
-	public String showCausasList(final Map<String, Object> model, @RequestParam(value = "message", required = false) final String message) {
+	public String showCausasList(final Map<String, Object> model, @RequestParam(value = "message", required = false) final String message, @RequestParam(value = "message2", required = false) final String message2) {
 		final List<Causa> causas = this.causaService.findByAbiertaTrue();
 		model.put("causas", causas);
 		model.put("message", message);
+		model.put("message2", message2);
 		return "causes/causasList";
 	}
 	
 	@GetMapping(value = "/causas/{causaId}" )
-	public String showCausasDetail(@PathVariable("causaId") final int causaId, final ModelMap model,@RequestParam(value = "message", required = false) final String message) {
+	public String showCausasDetail(@PathVariable("causaId") final int causaId, final ModelMap model,@RequestParam(value = "message", required = false) final String message, @RequestParam(value = "message2", required = false) final String message2) {
 		final Causa causa = this.causaService.findById(causaId).get();
 		model.put("causa", causa);
 		model.put("donaciones", this.donationService.findByCausa(causaId));
 		model.put("message", message);
+		model.put("message2", message2);
 		return "causes/causaDetail";
 	}
 	
