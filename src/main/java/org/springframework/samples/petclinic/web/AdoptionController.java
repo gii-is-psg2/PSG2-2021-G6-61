@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.PropuestaAdopcionService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,8 @@ public class AdoptionController {
     private UserService userService;
 	@Autowired
     private OwnerService ownerService;
+	@Autowired
+	private PropuestaAdopcionService propuestaAdopcionService;
 
 	
     @GetMapping(value = { "/adoptions" })
@@ -74,7 +77,7 @@ public class AdoptionController {
         
     	Pet pet = petService.findPetById(petId);
     	if(pet != null) {
-    		
+    		this.propuestaAdopcionService.deleteByPet(pet);
     		pet.setEnAdopcion(false);
     		petService.save(pet);
     		redirectAttributes.addAttribute("message", "AdoptionCancelSuccessful");
