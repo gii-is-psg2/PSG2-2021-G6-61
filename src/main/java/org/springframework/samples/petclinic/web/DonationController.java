@@ -48,8 +48,7 @@ public class DonationController {
 
 	@GetMapping(value = "/newDonation")
 	public String newDonation(final ModelMap model) {
-		final Donation donation = new Donation();
-		model.put("donation", donation);
+		model.put("donation", new Donation());
 		return "causes/newDonation";
 	}
 
@@ -61,57 +60,33 @@ public class DonationController {
 		final String donante = (String) model.getAttribute("donor");
 		final Donation d = donationService.findByCausaAndDonante(causa, donante);
 
+		final double scale = Math.pow(10, 2);
+		donation.setCantidad(Math.round(donation.getCantidad() * scale) / scale);
+		
 		if (result.hasErrors()) {
-			return "causes/newDonation/";
+			return "causes/newDonation";
 		} else if (d != null) {
-
-
-			if (d.getCantidad() + donation.getCantidad() > causa.getObjetivoPresupuestario()) {
-
-				final Double dtot = causa.getObjetivoPresupuestario() - causa.getAcumulado();
-
-				model.put("confirmacion", new Confirmation<Donation>(
-						"Ya esta donando " + d.getCantidad().toString()
-								+ " euros para esta causa, con la nueva donacion pasara a donar " + dtot.toString()
-								+ " puesto que se conseguirá el objetivo de la causa. Desea continuar?",
-						"/causas/" + d.getCausa().getId() + "/updateDonation/", donation.getCantidad().toString(), d));
-				
-
-				model.put("donation", new Donation());
-				return "causes/newDonation";
-
+			
+			final Double dtot;
+			if (d.getCantidad() + donation.getCantidad() >= causa.getObjetivoPresupuestario()) {
+				dtot = causa.getObjetivoPresupuestario() - causa.getAcumulado() + d.getCantidad();
 			} else {
-
-				final Double dtot = d.getCantidad() + donation.getCantidad();
-				model.put("confirmacion", new Confirmation<Donation>(
-						"Ya esta donando " + d.getCantidad().toString()
-								+ " euros para esta causa, con la nueva donacion pasara a donar " + dtot.toString()
-								+ ". Desea continuar?",
-						"/causas/" + d.getCausa().getId() + "/updateDonation/", donation.getCantidad().toString(), d));
-
-				model.put("donation", new Donation());
-				return "causes/newDonation";
+				dtot = d.getCantidad() + donation.getCantidad();
 			}
+			model.put("confirmacion", new Confirmation<Donation>(
+					"Ya esta donando " + d.getCantidad().toString()
+							+ " euros para esta causa, con la nueva donacion pasara a donar " + dtot.toString()
+							+ ". Desea continuar?",
+					"/causas/" + d.getCausa().getId() + "/updateDonation/", donation.getCantidad().toString(), d));
+
+			model.put("donation", new Donation());
+			return "causes/newDonation";
 
 		} else {
 
-			final double scale = Math.pow(10, 2);
-			donation.setCantidad(Math.round(donation.getCantidad() * scale) / scale);
 			Double nuevoAcum = donation.getCantidad() + causa.getAcumulado();
 
-			if (nuevoAcum > causa.getObjetivoPresupuestario()) {
-				donation.setCantidad(causa.getObjetivoPresupuestario() - causa.getAcumulado());
-				redirectAttributes.addAttribute("message", "TargetAchieved");
-				causa.setFinalizada(true);
-				nuevoAcum = causa.getObjetivoPresupuestario();
-			} else
-				redirectAttributes.addAttribute("message", "DonationSubmitted");
-
-			causa.setAcumulado(nuevoAcum);
-			donation.setCausa(causa);
-			donation.setDonante((String) model.getAttribute("donor"));
-			donation.setFecha(LocalDate.now());
-			donationService.save(donation);
+			internalSaveDonation(donation, model, redirectAttributes, nuevoAcum);
 			return "redirect:/causas/{causaId}";
 		}
 
@@ -129,29 +104,33 @@ public class DonationController {
 		if (donation != null && !StringUtils.isEmpty(data)) {
 			
 			Double nuevoAcum = Double.valueOf(data) + causa.getAcumulado();
-
-			if (nuevoAcum > causa.getObjetivoPresupuestario()) {
-
-				donation.setCantidad(causa.getObjetivoPresupuestario() - causa.getAcumulado());
-				nuevoAcum = causa.getObjetivoPresupuestario();
-				causa.setFinalizada(true);
-				redirectAttributes.addAttribute("message", "TargetAchieved");
-			} else {
-
-				donation.setCantidad(donation.getCantidad() + Double.valueOf(data));
-				redirectAttributes.addAttribute("message", "DonationSubmitted");
-			}
-			
-			causa.setAcumulado(nuevoAcum);
-			donation.setCausa(causa);
-			donation.setDonante((String) model.getAttribute("donor"));
-			donation.setFecha(LocalDate.now());
-			donationService.save(donation);
+			internalSaveDonation(donation, model, redirectAttributes, nuevoAcum);
 
 		}
 
 		return "redirect:/causas/" + donation.getCausa().getId();
 
+	}
+	
+	private void internalSaveDonation(final Donation donation, final ModelMap model,
+			final RedirectAttributes redirectAttributes, Double nuevoAcum) {
+		final Causa causa = (Causa) model.getAttribute("causa");
+		
+		if (nuevoAcum > causa.getObjetivoPresupuestario()) {
+			donation.setCantidad(causa.getObjetivoPresupuestario() - causa.getAcumulado());
+			redirectAttributes.addAttribute("message", "TargetAchieved");
+			causa.setFinalizada(true);
+			nuevoAcum = causa.getObjetivoPresupuestario();
+		} else {
+			redirectAttributes.addAttribute("message", "DonationSubmitted");
+			if(nuevoAcum.equals(causa.getObjetivoPresupuestario())) causa.setFinalizada(true);
+		}
+		
+		causa.setAcumulado(nuevoAcum);
+		donation.setCausa(causa);
+		donation.setDonante((String) model.getAttribute("donor"));
+		donation.setFecha(LocalDate.now());
+		donationService.save(donation);
 	}
 
 }

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Positive;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,6 +33,7 @@ public class Donation extends BaseEntity{
 	@DateTimeFormat
 	private LocalDate fecha;
 	
+	@Positive
 	private Double cantidad;
 
 }
