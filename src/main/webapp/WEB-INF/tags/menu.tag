@@ -15,7 +15,7 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
+				href="<spring:url value="/" htmlEscape="true"/>"><span></span></a>
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target="#main-navbar">
 				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
@@ -47,7 +47,7 @@
 				</petclinic:menuItem>
 				
 
-				<sec:authorize access="hasAnyAuthority('owner','admin')">
+				<sec:authorize access="hasAnyAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'adoptions'}" url="/adoptions"
 					title="adoptions">
 					<span class="fas fa-dog" aria-hidden="true"></span>
