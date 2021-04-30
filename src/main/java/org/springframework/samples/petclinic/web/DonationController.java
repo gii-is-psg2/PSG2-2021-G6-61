@@ -27,11 +27,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/causas/{causaId}")
 public class DonationController {
 
-	private DonationService donationService;
-	private CausaService causaService;
+	private final DonationService donationService;
+	private final CausaService causaService;
 
 	@Autowired
-	public DonationController(DonationService donationService, CausaService causaService) {
+	public DonationController(final DonationService donationService, final CausaService causaService) {
 		this.donationService = donationService;
 		this.causaService = causaService;
 	}
@@ -42,24 +42,24 @@ public class DonationController {
 	}
 
 	@ModelAttribute("donor")
-	public String findDonor(Authentication auth) {
+	public String findDonor(final Authentication auth) {
 		return auth.getName();
 	}
 
 	@GetMapping(value = "/newDonation")
 	public String newDonation(final ModelMap model) {
-		Donation donation = new Donation();
+		final Donation donation = new Donation();
 		model.put("donation", donation);
 		return "causes/newDonation";
 	}
 
 	@PostMapping(value = "/newDonation")
-	public String newDonation(@Valid Donation donation, BindingResult result, final ModelMap model,
+	public String newDonation(@Valid final Donation donation, final BindingResult result, final ModelMap model,
 			final RedirectAttributes redirectAttributes) {
 
-		Causa causa = (Causa) model.getAttribute("causa");
-		String donante = (String) model.getAttribute("donor");
-		Donation d = donationService.findByCausaAndDonante(causa, donante);
+		final Causa causa = (Causa) model.getAttribute("causa");
+		final String donante = (String) model.getAttribute("donor");
+		final Donation d = donationService.findByCausaAndDonante(causa, donante);
 
 		if (result.hasErrors()) {
 			return "causes/newDonation/";
@@ -68,7 +68,7 @@ public class DonationController {
 
 			if (d.getCantidad() + donation.getCantidad() > causa.getObjetivoPresupuestario()) {
 
-				Double dtot = causa.getObjetivoPresupuestario() - causa.getAcumulado();
+				final Double dtot = causa.getObjetivoPresupuestario() - causa.getAcumulado();
 
 				model.put("confirmacion", new Confirmation<Donation>(
 						"Ya esta donando " + d.getCantidad().toString()
@@ -82,7 +82,7 @@ public class DonationController {
 
 			} else {
 
-				Double dtot = d.getCantidad() + donation.getCantidad();
+				final Double dtot = d.getCantidad() + donation.getCantidad();
 				model.put("confirmacion", new Confirmation<Donation>(
 						"Ya esta donando " + d.getCantidad().toString()
 								+ " euros para esta causa, con la nueva donacion pasara a donar " + dtot.toString()
@@ -95,7 +95,7 @@ public class DonationController {
 
 		} else {
 
-			double scale = Math.pow(10, 2);
+			final double scale = Math.pow(10, 2);
 			donation.setCantidad(Math.round(donation.getCantidad() * scale) / scale);
 			Double nuevoAcum = donation.getCantidad() + causa.getAcumulado();
 
@@ -118,30 +118,27 @@ public class DonationController {
 	}
 
 	@GetMapping(value = "/updateDonation/{idDonation}")
-	public String updateDonation(@PathVariable("idDonation") int idDonation,
-			@RequestParam(name = "data", required = false) String data, final ModelMap model,
+	public String updateDonation(@PathVariable("idDonation") final int idDonation,
+			@RequestParam(name = "data", required = false) final String data, final ModelMap model,
 			final RedirectAttributes redirectAttributes) {
 
-		Donation donation = donationService.findById(idDonation).get();
+		final Donation donation = donationService.findById(idDonation).get();
 
-		Causa causa = donation.getCausa();
-
-		Double nuevoAcum = Double.valueOf(data) + causa.getAcumulado() + donation.getCantidad();
+		final Causa causa = donation.getCausa();
 
 		if (donation != null && !StringUtils.isEmpty(data)) {
+			
+			Double nuevoAcum = Double.valueOf(data) + causa.getAcumulado();
 
 			if (nuevoAcum > causa.getObjetivoPresupuestario()) {
 
 				donation.setCantidad(causa.getObjetivoPresupuestario() - causa.getAcumulado());
 				nuevoAcum = causa.getObjetivoPresupuestario();
 				causa.setFinalizada(true);
-				nuevoAcum = causa.getObjetivoPresupuestario();
 				redirectAttributes.addAttribute("message", "TargetAchieved");
 			} else {
 
 				donation.setCantidad(donation.getCantidad() + Double.valueOf(data));
-				donationService.save(donation);
-
 				redirectAttributes.addAttribute("message", "DonationSubmitted");
 			}
 			
