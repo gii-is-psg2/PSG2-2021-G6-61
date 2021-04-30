@@ -64,11 +64,22 @@ public class Owner extends Person {
 	private Set<Pet> pets;
 	
 	//
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	//
 	
+	@Column(name = "es_cliente", columnDefinition = "boolean default false")
+	private boolean esCliente;
+	
+	public boolean isEsCliente() {
+		return esCliente;
+	}
+
+	public void setEsCliente(boolean esCliente) {
+		this.esCliente = esCliente;
+	}
+
 	public void setPets(final Set<Pet> pets) {
 		this.pets = pets;
 	}
@@ -130,6 +141,8 @@ public class Owner extends Person {
 	public boolean removePet(final Pet pet) {
 		return getPetsInternal().remove(pet);
 	}
+	
+	
 
 	/**
 	 * Return the Pet with the given name, or null if none found for this Owner.

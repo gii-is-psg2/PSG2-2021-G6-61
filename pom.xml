@@ -2,10 +2,10 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+        <modelVersion>4.0.0</modelVersion>
     <groupId>es.us.psg2</groupId>
     <artifactId>spring-petclinic.psg2.2021-G6-61</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,6 +31,11 @@
 
         <jacoco.version>0.8.5</jacoco.version>
         <spring-format.version>0.0.19</spring-format.version>
+        
+        <!-- SonarCloud -->
+        <sonar.projectKey>gii-is-psg2_PSG2-2021-G6-61</sonar.projectKey>
+  		<sonar.organization>gii-is-psg2</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
     </properties>
 
@@ -188,11 +193,11 @@
             <artifactId>junit</artifactId>
             <groupId>junit</groupId>
         </dependency>
-        <!-- Development tools>
+        <!-- Development tools-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency -->
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

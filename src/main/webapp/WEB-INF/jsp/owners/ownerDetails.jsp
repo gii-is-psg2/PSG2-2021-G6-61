@@ -26,6 +26,17 @@
             <th>Telephone</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>
+        <tr>
+        	<th>Client</th>
+            <td>
+            <c:if test="${owner.esCliente == true}">
+                		<c:out value="Yes"/>
+                	</c:if>
+                	<c:if test="${owner.esCliente == false}">
+                		<c:out value="No"/>
+                	</c:if>
+            </td>
+        </tr>
     </table>
 
     <spring:url value="{ownerId}/edit" var="editUrl">
@@ -84,6 +95,26 @@
                                 </spring:url>
                                 <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
                             </td>
+                             <c:if test="${pet.enAdopcion==false && ownerLogado}">
+                              <td>
+                                <spring:url value="/adoptions/{petId}/enAdopcion" var="adoptionsUrl">
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(adoptionsUrl)}">Propose adoption</a>                         
+                         	   </td>
+                              </c:if>
+                             <c:if test="${pet.enAdopcion==true && ownerLogado}">
+                              
+                             <td>
+                                
+                                
+                                <spring:url value="/adoptions/{petId}/noEnAdopcion" var="adoptionsUrl">
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(adoptionsUrl)}">Cancel adoption</a>
+                             </td>
+                           </c:if>
+                            
                             <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/visits/new" var="visitUrl">
                                     <spring:param name="ownerId" value="${owner.id}"/>
@@ -135,6 +166,13 @@
                 </td>
                 <td align="center">
 			    	<a style="text-decoration: none;" href="<spring:url value="/owners/${owner.id}/pets/${pet.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span><b style="margin-left: 1px;">Delete Pet</b></a>
+			    	<br>
+			    	<c:if test="${pet.enAdopcion==true && ownerLogado}">
+				    	<spring:url value="/proposals/{petId}/list" var="adoptionsListUrl">
+	                    	<spring:param name="petId" value="${pet.id}"/>
+	                    </spring:url>
+	                    <a href="${fn:escapeXml(adoptionsListUrl)}"><span class="glyphicon glyphicon-envelope" title="Adoption proposals"></span><b style="margin-left: 2px;">Adoption proposals</b></a>
+			    	</c:if>
 				</td>
             </tr>
 
