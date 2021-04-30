@@ -8,8 +8,10 @@ import org.springframework.samples.petclinic.model.Donation;
 import org.springframework.stereotype.Repository;
 
 @Repository("donationRepository")
-public interface DonationRepository extends JpaRepository<Donation, Integer>{
-	
+public interface DonationRepository extends JpaRepository<Donation, Integer> {
+
 	public List<Donation> findByCausaOrderByFechaDesc(Causa causa);
+
+	public Donation findByCausaAndDonante(Causa Causa, String donante);
 
 }
