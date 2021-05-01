@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="owners">
     <h2>Owners</h2>
@@ -17,7 +18,9 @@
             <th style="width: 120px">Telephone</th>
             <th>Pets</th>
             <th>Client</th>
+            <sec:authorize access="hasAnyAuthority('admin')">
             <th style="text-align: center;"><spring:message code="actions" text="Actions"/></th>
+             </sec:authorize>
         </tr>
         </thead>
         <tbody>
@@ -52,10 +55,11 @@
                 	</c:if>
                     
                 </td>
+                <sec:authorize access="hasAnyAuthority('admin')">
                 <td align="center">
                 	<a href="<spring:url value="/owners/${owner.id}/delete" htmlEscape="true" />"><span class="glyphicon glyphicon-remove"></span></a>
                 </td>
-                
+                </sec:authorize>
       
 <!--
                 <td> 

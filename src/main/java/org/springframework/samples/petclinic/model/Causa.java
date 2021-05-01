@@ -67,9 +67,6 @@ public class Causa extends BaseEntity {
 	@Length(min=1, max=100)
 	private String organizacion;
 	
-	@Column(columnDefinition="boolean default true")
-	private Boolean abierta;
-	
 	@OneToMany(mappedBy="causa", cascade = CascadeType.ALL)
 	private Set<Donation> donaciones;
 	

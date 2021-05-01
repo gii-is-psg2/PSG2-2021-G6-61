@@ -38,8 +38,8 @@ public class CausaService extends BaseService<Causa>{
 
 	
 	@Transactional(readOnly = true)
-	public List<Causa> findByAbiertaTrue() {
-		return causaRepository.findByAbiertaTrue();
+	public List<Causa> findAll() {
+		return causaRepository.findAll();
 	}
 	
 }
