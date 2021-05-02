@@ -96,9 +96,9 @@ public class DonationController {
 		final Donation donation = donationService.findById(idDonation).get();
 
 		if (donation != null && !StringUtils.isEmpty(data)) {
-			Double nuevaSuma = donation.getCantidad()+Double.valueOf(data);
-			Double objetivo = donation.getCausa().getObjetivoPresupuestario();
-			Double acumulado = donation.getCausa().getAcumulado();
+			final Double nuevaSuma = donation.getCantidad()+Double.valueOf(data);
+			final Double objetivo = donation.getCausa().getObjetivoPresupuestario();
+			final Double acumulado = donation.getCausa().getAcumulado();
 			
 			if(nuevaSuma + acumulado> objetivo)	donation.setCantidad(objetivo - acumulado + donation.getCantidad());
 			else donation.setCantidad(nuevaSuma);
@@ -111,11 +111,11 @@ public class DonationController {
 	}
 	
 	private void internalSaveDonation(final Donation donation, final ModelMap model,
-			final RedirectAttributes redirectAttributes, Double updateDonacion) {
+			final RedirectAttributes redirectAttributes, final Double updateDonacion) {
 		final Causa causa = (Causa) model.getAttribute("causa");
 		
-		Double acumulado = causa.getAcumulado();
-		Double objetivo = causa.getObjetivoPresupuestario();
+		final Double acumulado = causa.getAcumulado();
+		final Double objetivo = causa.getObjetivoPresupuestario();
 		
 		if (acumulado+updateDonacion> objetivo) {
 			if(updateDonacion == 0.0)	donation.setCantidad(objetivo - acumulado + donation.getCantidad());
@@ -125,7 +125,7 @@ public class DonationController {
 		} else {
 			causa.setAcumulado(acumulado + updateDonacion);
 			redirectAttributes.addAttribute("message", "DonationSubmitted");
-			if(acumulado.equals(objetivo)) causa.setFinalizada(true);
+			if(causa.getAcumulado().equals(objetivo)) causa.setFinalizada(true);
 		}
 		
 		donation.setCausa(causa);
