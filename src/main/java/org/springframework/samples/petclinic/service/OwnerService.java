@@ -15,11 +15,12 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.security.Principal;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,11 @@ public class OwnerService extends BaseService<Owner>{
 		return ownerRepository.findByLastName(lastName);
 	}
 
+	@Transactional(readOnly = true)
+	public Owner findOwnerByUser(final User user) throws DataAccessException {
+		return ownerRepository.findOwnerByUser(user);
+	}
+
 	@Transactional
 	public void saveOwner(final Owner owner) throws DataAccessException {
 		//creating owner
@@ -65,6 +71,11 @@ public class OwnerService extends BaseService<Owner>{
 		userService.saveUser(owner.getUser());
 		//creating authorities
 		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
+    
+		if(owner.isEsCliente()) {
+			authoritiesService.saveAuthorities(owner.getUser().getUsername(), "client");
+		}	
+		
+	}
 
 }
