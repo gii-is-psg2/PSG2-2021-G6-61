@@ -66,6 +66,8 @@ public class Pet extends NamedEntity {
 	@Column(name = "en_adopcion", columnDefinition = "boolean default false")
 	private Boolean enAdopcion;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
+	private Set<PropuestaAdopcion> propuestaAdopcion;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit> visits;

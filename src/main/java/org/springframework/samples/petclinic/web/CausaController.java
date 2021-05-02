@@ -68,7 +68,7 @@ public class CausaController {
 	
 	@GetMapping(value = { "/causas" })
 	public String showCausasList(final Map<String, Object> model, @RequestParam(value = "message", required = false) final String message, @RequestParam(value = "message2", required = false) final String message2) {
-		final List<Causa> causas = this.causaService.findByAbiertaTrue();
+		final List<Causa> causas = this.causaService.findAll();
 		model.put("causas", causas);
 		model.put("message", message);
 		model.put("message2", message2);
@@ -100,7 +100,6 @@ public class CausaController {
 		else {
 			//creating owner, user and authorities
 			causa.setFinalizada(false);
-			causa.setAbierta(true);
 			causa.setAcumulado(0.0);
 			this.causaService.save(causa);
 			redirectAttributes.addAttribute("message", "CausaSavedSuccessful");
