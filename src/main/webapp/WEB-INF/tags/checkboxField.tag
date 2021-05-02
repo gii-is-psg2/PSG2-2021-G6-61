@@ -5,20 +5,16 @@
               description="Name of corresponding property in bean object" %>
 <%@ attribute name="label" required="true" rtexprvalue="true"
               description="Label appears in red color if input is considered as invalid after submission" %>
-<%@ attribute name="readonly" required="false" rtexprvalue="true"
-              description="whether the input can be edited or not" %>
-
+              
 <spring:bind path="${name}">
-    <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
+    <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
     <div class="${cssGroup}">
-        <!-- <label class="col-sm-2 control-label">${label}</label> -->
-		<label class="col-sm-2 control-label"><spring:message code="${name}" text="${label}"/></label>
-        <div class="col-sm-10">
-            <form:input class="form-control" path="${name}" readonly="${readonly}"/>
-            <c:if test="${valid}">
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-            </c:if>
+        <label class="col-sm-2 control-label">${label}</label>
+
+        <div class="col-sm-2">
+            <form:checkbox class="form-control" path="${name}" style="width: 20px; height: 20px;"/>
+            
             <c:if test="${status.error}">
                 <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="help-inline">${status.errorMessage}</span>
@@ -26,3 +22,4 @@
         </div>
     </div>
 </spring:bind>
+
