@@ -59,9 +59,6 @@ public class DonationController {
 		final Causa causa = (Causa) model.getAttribute("causa");
 		final String donante = (String) model.getAttribute("donor");
 		final Donation d = donationService.findByCausaAndDonante(causa, donante);
-
-//		final double scale = Math.pow(10, 2);
-//		donation.setCantidad(Math.round(donation.getCantidad() * scale) / scale);
 		
 		if (result.hasErrors()) {
 			return "causes/newDonation";
