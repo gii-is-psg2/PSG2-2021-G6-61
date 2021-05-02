@@ -9,7 +9,7 @@
 	
 	<div class="form-group">
         <div class="col-sm-offset-9">
-        <c:if test="${!cause.finalizada}">
+        <c:if test="${!causa.finalizada}">
 			<a href="<spring:url value="/causas/${causa.id}/newDonation" htmlEscape="true" />"><button class="btn btn-default">New donation</button></a>
 		</c:if>
         <a href="/causas">
