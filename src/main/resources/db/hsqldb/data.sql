@@ -9,7 +9,7 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'owner1','client');
 
 INSERT INTO users(username,password,enabled) VALUES ('owner2','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'owner2','owner');
-INSERT INTO authorities(id,username,authority) VALUES (5,'owner1','client');
+INSERT INTO authorities(id,username,authority) VALUES (5,'owner2','client');
 
 INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (6,'owner3','owner');
