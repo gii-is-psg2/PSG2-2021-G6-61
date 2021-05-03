@@ -23,7 +23,6 @@ import java.util.Collection;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -73,9 +72,9 @@ class VetServiceTests {
 
 	@Test
 	void shouldFindVets() {
-		Collection<Vet> vets = this.vetService.findVets();
+		final Collection<Vet> vets = this.vetService.findVets();
 
-		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		final Vet vet = EntityUtils.getById(vets, Vet.class, 3);
 		assertThat(vet.getLastName()).isEqualTo("Douglas");
 		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
 		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
@@ -84,34 +83,34 @@ class VetServiceTests {
 	
 	@Test
 	@Transactional
-	public void shouldInsertVet() {
+	void shouldInsertVet() {
 		Collection<Vet> vets = this.vetService.findVets();
-		int found = vets.size();
+		final int found = vets.size();
 
-		Vet vet = new Vet();
+		final Vet vet = new Vet();
 		vet.setFirstName("Leo");
 		vet.setLastName("Schultz");
 		
-		Collection<Specialty> specialties = this.vetService.findSpecialties();
+		final Collection<Specialty> specialties = this.vetService.findSpecialties();
 		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
 		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 2));
                 
 		this.vetService.save(vet);
-		assertThat(vet.getId().longValue()).isNotEqualTo(0);
+		assertThat(vet.getId().longValue()).isNotZero();
 		
 		vets = this.vetService.findVets();
-		assertThat(vets.size()).isEqualTo(found + 1);
+		assertThat(vets).hasSize(found + 1);
 	}
 	
 	@Test
 	@Transactional
-	public void shouldNotInsertVetsEmptyAttributes() {
+	void shouldNotInsertVetsEmptyAttributes() {
 
-		Vet vet = new Vet();
+		final Vet vet = new Vet();
 		vet.setFirstName("");
 		vet.setLastName("");
 		
-		Collection<Specialty> specialties = this.vetService.findSpecialties();
+		final Collection<Specialty> specialties = this.vetService.findSpecialties();
 		
 		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
 		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 2));    
@@ -120,7 +119,7 @@ class VetServiceTests {
 		
 		
 		//No debería de dejar meter un nombre formado por números
-		Vet vet2 = new Vet();
+		final Vet vet2 = new Vet();
 		vet2.setFirstName("123213123");
 		vet2.setLastName("12312312");
 		
@@ -136,15 +135,15 @@ class VetServiceTests {
 	@Transactional
 	void shouldUpdateVet() {
 		Vet vet = this.vetService.findById(1).get();
-		String oldLastName = vet.getLastName();
-		String newLastName = oldLastName + "X";
+		final String oldLastName = vet.getLastName();
+		final String newLastName = oldLastName + "X";
 
 		vet.setLastName(newLastName);
 		this.vetService.save(vet);
 
-		Collection<Specialty> specialties = this.vetService.findSpecialties();
+		final Collection<Specialty> specialties = this.vetService.findSpecialties();
 		
-		int found = vet.getNrOfSpecialties();
+		final int found = vet.getNrOfSpecialties();
 		vet.addSpecialty(EntityUtils.getById(specialties, Specialty.class, 1));
 		
 		this.vetService.save(vet);

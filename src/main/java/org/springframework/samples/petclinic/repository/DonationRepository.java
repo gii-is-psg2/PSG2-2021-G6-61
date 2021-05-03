@@ -12,6 +12,6 @@ public interface DonationRepository extends JpaRepository<Donation, Integer> {
 
 	public List<Donation> findByCausaOrderByFechaDesc(Causa causa);
 
-	public Donation findByCausaAndDonante(Causa Causa, String donante);
+	public Donation findByCausaAndDonante(Causa causa, String donante);
 
 }

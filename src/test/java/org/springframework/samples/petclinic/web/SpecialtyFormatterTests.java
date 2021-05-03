@@ -18,9 +18,8 @@ import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.service.VetService;
 
 
-
 @ExtendWith(MockitoExtension.class)
-public class SpecialtyFormatterTests {
+class SpecialtyFormatterTests {
 	
 	@Mock
 	private VetService vetService;
@@ -34,16 +33,16 @@ public class SpecialtyFormatterTests {
 	
 	@Test
 	void testPrint() {
-		Specialty specialty = new Specialty();
+		final Specialty specialty = new Specialty();
 		specialty.setName("anesthesiology");
-		String specialtyName = specialtyFormatter.print(specialty, Locale.ENGLISH);
+		final String specialtyName = specialtyFormatter.print(specialty, Locale.ENGLISH);
 		assertEquals("anesthesiology",specialtyName);
 	}
 	
 	@Test
 	void shouldParse() throws ParseException{
 		Mockito.when(vetService.findSpecialties()).thenReturn(makeSpecialties());
-		Specialty specialty = specialtyFormatter.parse("dentistry", Locale.ENGLISH);
+		final Specialty specialty = specialtyFormatter.parse("dentistry", Locale.ENGLISH);
 		assertEquals("dentistry",specialty.getName());	
 	}
 	
@@ -56,7 +55,7 @@ public class SpecialtyFormatterTests {
 	}
 
 	private Collection<Specialty> makeSpecialties() {
-		Collection<Specialty> specialties = new ArrayList<>();
+		final Collection<Specialty> specialties = new ArrayList<>();
 		specialties.add(new Specialty() {
 			{
 				setName("radiology");

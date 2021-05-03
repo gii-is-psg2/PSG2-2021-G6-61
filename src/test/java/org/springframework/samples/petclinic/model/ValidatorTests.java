@@ -19,7 +19,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 class ValidatorTests {
 
 	private Validator createValidator() {
-		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
+		final LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.afterPropertiesSet();
 		return localValidatorFactoryBean;
 	}
@@ -28,16 +28,16 @@ class ValidatorTests {
 	void shouldNotValidateWhenFirstNameEmpty() {
 
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Person person = new Person();
+		final Person person = new Person();
 		person.setFirstName("");
 		person.setLastName("smith");
 
-		Validator validator = createValidator();
-		Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
+		final Validator validator = createValidator();
+		final Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
 
 		assertThat(constraintViolations.size()).isEqualTo(1);
-		ConstraintViolation<Person> violation = constraintViolations.iterator().next();
-		assertThat(violation.getPropertyPath().toString()).isEqualTo("firstName");
+		final ConstraintViolation<Person> violation = constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath()).hasToString("firstName");
 		assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 

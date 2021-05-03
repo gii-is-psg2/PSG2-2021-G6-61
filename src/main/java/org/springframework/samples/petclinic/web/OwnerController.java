@@ -45,6 +45,10 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class OwnerController {
+	
+	private static final String OWNER_CODE = "owner";
+	
+	private static final String FIND_OWNERS_TEMPLATE = "owners/findOwners";
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
@@ -63,7 +67,7 @@ public class OwnerController {
 	@GetMapping(value = "/owners/new")
 	public String initCreationForm(final Map<String, Object> model) {
 		final Owner owner = new Owner();
-		model.put("owner", owner);
+		model.put(OWNER_CODE, owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -82,8 +86,8 @@ public class OwnerController {
 
 	@GetMapping(value = "/owners/find")
 	public String initFindForm(final Map<String, Object> model) {
-		model.put("owner", new Owner());
-		return "owners/findOwners";
+		model.put(OWNER_CODE, new Owner());
+		return FIND_OWNERS_TEMPLATE;
 	}
 
 	@GetMapping(value = "/owners")
@@ -99,7 +103,7 @@ public class OwnerController {
 		if (results.isEmpty()) {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
-			return "owners/findOwners";
+			return FIND_OWNERS_TEMPLATE;
 		}
 		else if (results.size() == 1) {
 			// 1 owner found
@@ -140,9 +144,9 @@ public class OwnerController {
 	 */
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") final int ownerId, 
-			HttpServletRequest request, @RequestParam(value = "message", required = false) final String message) {
+			final HttpServletRequest request, @RequestParam(value = "message", required = false) final String message) {
 		final ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		Owner owner = this.ownerService.findOwnerById(ownerId);
+		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		mav.addObject("message",message);
 		mav.addObject(owner);
 		mav.addObject("ownerLogado", request.getUserPrincipal().getName().equals(owner.getUser().getUsername()));
@@ -153,8 +157,8 @@ public class OwnerController {
 	public String deleteOwner(@PathVariable("ownerId") final int ownerId, final Model model) {
 		ownerService.deleteById(ownerId);
 		model.addAttribute("message", "OwnerDeletedSuccessful");
-		model.addAttribute("owner", new Owner());
-		return "owners/findOwners";
+		model.addAttribute(OWNER_CODE, new Owner());
+		return FIND_OWNERS_TEMPLATE;
 	}
 
 }

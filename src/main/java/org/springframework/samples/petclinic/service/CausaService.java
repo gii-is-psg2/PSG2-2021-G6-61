@@ -15,14 +15,9 @@
  */
 package org.springframework.samples.petclinic.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Causa;
-import org.springframework.samples.petclinic.repository.CausaRepository;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -32,14 +27,5 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class CausaService extends BaseService<Causa>{
-	
-	@Autowired
-	private CausaRepository causaRepository;
-
-	
-	@Transactional(readOnly = true)
-	public List<Causa> findAll() {
-		return causaRepository.findAll();
-	}
 	
 }
