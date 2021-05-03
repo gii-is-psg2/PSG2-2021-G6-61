@@ -15,6 +15,13 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
@@ -33,13 +40,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
 /**
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -48,8 +48,12 @@ import javax.validation.Valid;
  */
 @Controller
 public class VetController {
+	
+	private static final String MESSAGE_CODE = "message";
 
 	private static final String VIEWS_VET_CREATE_OR_UPDATE_FORM = "vets/createOrUpdateVetForm";
+	
+	private static final String VET_LIST_REDIRECT = "redirect:/vets";
 
 	private final VetService vetService;
 
@@ -70,14 +74,14 @@ public class VetController {
 
 	@GetMapping(value = { "/vets" })
 	public String showVetList(final Map<String, Object> model,
-			@RequestParam(value = "message", required = false) final String message) {
+			@RequestParam(value = MESSAGE_CODE, required = false) final String message) {
 		// Here we are returning an object of type 'Vets' rather than a collection of
 		// Vet
 		// objects
 		// so it is simpler for Object-Xml mapping
 		final Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetService.findVets());
-		model.put("message", message);
+		model.put(MESSAGE_CODE, message);
 		model.put("vets", vets);
 		return "vets/vetList";
 	}
@@ -119,8 +123,8 @@ public class VetController {
 		} else {
 			// creating vet
 			this.vetService.save(vet);
-			redirectAttributes.addAttribute("message", "VetSavedSuccessful");
-			return "redirect:/vets";
+			redirectAttributes.addAttribute(MESSAGE_CODE, "VetSavedSuccessful");
+			return VET_LIST_REDIRECT;
 		}
 	}
 
@@ -131,7 +135,7 @@ public class VetController {
 			model.put("vet", vet.get());
 			return VIEWS_VET_CREATE_OR_UPDATE_FORM;
 		}
-		return "redirect:/vets";
+		return VET_LIST_REDIRECT;
 	}
 
 	@GetMapping(value = "/vets/{vetId}/delete")
@@ -140,9 +144,9 @@ public class VetController {
 		final Optional<Vet> vet = this.vetService.findById(vetId);
 		if (vet.isPresent()) {
 			vetService.delete(vet.get());
-			redirectAttributes.addAttribute("message", "VetDeletedSuccessful");
+			redirectAttributes.addAttribute(MESSAGE_CODE, "VetDeletedSuccessful");
 		}
-		return "redirect:/vets";
+		return VET_LIST_REDIRECT;
 	}
 
 	@PostMapping(value = "/vets/{vetId}/edit")
@@ -165,8 +169,8 @@ public class VetController {
 			// updating vet
 			vet.setId(vetId);
 			this.vetService.save(vet);
-			redirectAttributes.addAttribute("message", "VetSavedSuccessful");
-			return "redirect:/vets";
+			redirectAttributes.addAttribute(MESSAGE_CODE, "VetSavedSuccessful");
+			return VET_LIST_REDIRECT;
 		}
 	}
 

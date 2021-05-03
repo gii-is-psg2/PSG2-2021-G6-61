@@ -27,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(value = "/causas/{causaId}")
 public class DonationController {
+	
+	private static final String NEW_DONATION_TEMPLATE = "causes/newDonation";
 
 	private final DonationService donationService;
 	private final CausaService causaService;
@@ -51,7 +53,7 @@ public class DonationController {
 	@GetMapping(value = "/newDonation")
 	public String newDonation(final ModelMap model) {
 		model.put("donation", new Donation());
-		return "causes/newDonation";
+		return NEW_DONATION_TEMPLATE;
 	}
 
 	@PostMapping(value = "/newDonation")
@@ -81,7 +83,7 @@ public class DonationController {
 						"/causas/" + d.getCausa().getId() + "/updateDonation/", donation.getCantidad().toString(), d));
 
 				model.put("donation", new Donation());
-				return "causes/newDonation";
+				return NEW_DONATION_TEMPLATE;
 
 			} else {
 

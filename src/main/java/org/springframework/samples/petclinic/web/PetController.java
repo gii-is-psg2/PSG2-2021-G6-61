@@ -15,27 +15,31 @@
  */
 package org.springframework.samples.petclinic.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -45,6 +49,8 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNam
 @Controller
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
+	
+	private static final String OWNERS_DETAILS_REDIRECT = "redirect:/owners/{ownerId}";
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
@@ -66,13 +72,6 @@ public class PetController {
 	public Owner findOwner(@PathVariable("ownerId") final int ownerId) {
 		return this.ownerService.findOwnerById(ownerId);
 	}
-
-	/*
-	 * @ModelAttribute("pet") public Pet findPet(@PathVariable("petId") Integer
-	 * petId) { Pet result=null; if(petId!=null)
-	 * result=this.clinicService.findPetById(petId); else result=new Pet(); return
-	 * result; }
-	 */
 
 	@InitBinder("owner")
 	public void initOwnerBinder(final WebDataBinder dataBinder) {
@@ -107,7 +106,7 @@ public class PetController {
 				result.rejectValue("name", "duplicate", "already exists");
 				return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 			}
-			return "redirect:/owners/{ownerId}";
+			return OWNERS_DETAILS_REDIRECT;
 		}
 	}
 
@@ -123,13 +122,13 @@ public class PetController {
 		final Pet pet = petService.findPetById(petId);
 		final Owner owner = (Owner) model.getAttribute("owner");
 		if (owner != null) {
-			final Set<Pet> pets = new HashSet<Pet>(owner.getPets().stream().collect(Collectors.toSet()));
+			final Set<Pet> pets = new HashSet<>(owner.getPets().stream().collect(Collectors.toSet()));
 			pets.remove(pet);
 			owner.setPets(pets);
 			ownerService.save(owner);
 			petService.deleteById(petId);
 		}
-		return "redirect:/owners/{ownerId}";
+		return OWNERS_DETAILS_REDIRECT;
 	}
 
 	/**
@@ -157,7 +156,7 @@ public class PetController {
 				result.rejectValue("name", "duplicate", "already exists");
 				return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 			}
-			return "redirect:/owners/{ownerId}";
+			return OWNERS_DETAILS_REDIRECT;
 		}
 
 	}
