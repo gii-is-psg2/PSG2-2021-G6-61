@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -44,65 +45,73 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class CausaController {
+	
+	private static final String MESSAGE_CODE = "message";
 
 	private final CausaService causaService;
 	private final DonationService donationService;
-	
 
 	@Autowired
-	public CausaController(CausaService casuaService, DonationService donationService) {
+	public CausaController(final CausaService casuaService, final DonationService donationService) {
 		this.causaService = casuaService;
 		this.donationService = donationService;
 	}
-	
+
 	@ModelAttribute("causas")
 	public Collection<Integer> populateCausas() {
-		return this.causaService.findAll().stream().map(x->x.getId()).collect(Collectors.toList());
+		return this.causaService.findAll().stream().map(Causa::getId).collect(Collectors.toList());
 	}
-	
+
 	@ModelAttribute("causa")
 	public Causa populateCausa() {
 		return new Causa();
 	}
 
-	
 	@GetMapping(value = { "/causas" })
-	public String showCausasList(final Map<String, Object> model, @RequestParam(value = "message", required = false) final String message, @RequestParam(value = "message2", required = false) final String message2) {
+	public String showCausasList(final Map<String, Object> model,
+			@RequestParam(value = MESSAGE_CODE, required = false) final String message,
+			@RequestParam(value = "message2", required = false) final String message2) {
 		final List<Causa> causas = this.causaService.findAll();
 		model.put("causas", causas);
-		model.put("message", message);
+		model.put(MESSAGE_CODE, message);
 		model.put("message2", message2);
 		return "causes/causasList";
 	}
-	
-	@GetMapping(value = "/causas/{causaId}" )
-	public String showCausasDetail(@PathVariable("causaId") final int causaId, final ModelMap model,@RequestParam(value = "message", required = false) final String message, @RequestParam(value = "message2", required = false) final String message2) {
-		final Causa causa = this.causaService.findById(causaId).get();
-		model.put("causa", causa);
-		model.put("donaciones", this.donationService.findByCausa(causaId));
-		model.put("message", message);
-		model.put("message2", message2);
-		return "causes/causaDetail";
+
+	@GetMapping(value = "/causas/{causaId}")
+	public String showCausasDetail(@PathVariable("causaId") final int causaId, final ModelMap model,
+			@RequestParam(value = MESSAGE_CODE, required = false) final String message,
+			@RequestParam(value = "message2", required = false) final String message2) {
+		final Optional<Causa> causa = this.causaService.findById(causaId);
+
+		if (causa.isPresent()) {
+			model.put("causa", causa.get());
+			model.put("donaciones", this.donationService.findByCausa(causaId));
+			model.put(MESSAGE_CODE, message);
+			model.put("message2", message2);
+			return "causes/causaDetail";
+		}
+		return "redirect:/causas";
 	}
-	
+
 	@GetMapping(value = "/causas/new")
 	public String initCreationForm(final Map<String, Object> model) {
 		final Causa causa = new Causa();
 		model.put("causa", causa);
 		return "causes/createCausaForm";
 	}
-	
+
 	@PostMapping(value = "/causas/new")
-	public String processCreationForm(@Valid final Causa causa, final BindingResult result, final RedirectAttributes redirectAttributes) {
+	public String processCreationForm(@Valid final Causa causa, final BindingResult result,
+			final RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "causes/createCausaForm";
-		}
-		else {
-			//creating owner, user and authorities
+		} else {
+			// creating owner, user and authorities
 			causa.setFinalizada(false);
 			causa.setAcumulado(0.0);
 			this.causaService.save(causa);
-			redirectAttributes.addAttribute("message", "CausaSavedSuccessful");
+			redirectAttributes.addAttribute(MESSAGE_CODE, "CausaSavedSuccessful");
 			return "redirect:/causas";
 		}
 	}

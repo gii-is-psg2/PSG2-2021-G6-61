@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.component.BookValidator;
 import org.springframework.samples.petclinic.model.Book;
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Room;
 import org.springframework.samples.petclinic.service.BookService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.RoomService;
@@ -35,7 +37,10 @@ import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNam
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Juergen Hoeller
@@ -50,58 +55,60 @@ public class BookController {
 	private final BookService bookService;
 	private final BookValidator bookValidator;
 	private final RoomService roomService;
-	
 
 	@Autowired
-	public BookController(PetService petService, BookService bookService, BookValidator bookValidator, RoomService roomService) {
+	public BookController(final PetService petService, final BookService bookService, final BookValidator bookValidator,
+			final RoomService roomService) {
 		this.roomService = roomService;
 		this.bookValidator = bookValidator;
 		this.petService = petService;
 		this.bookService = bookService;
 	}
-	
+
 	@ModelAttribute("rooms")
 	public Collection<Integer> populatePetTypes() {
-		return this.roomService.findAll().stream().map(x->x.getId()).collect(Collectors.toList());
+		return this.roomService.findAll().stream().map(Room::getId).collect(Collectors.toList());
 	}
-	
+
 	@ModelAttribute("book")
-	public Book loadPetWithBook(@PathVariable("petId") int petId) {
-		Pet pet = this.petService.findPetById(petId);
-		Book book = new Book();
+	public Book loadPetWithBook(@PathVariable("petId") final int petId) {
+		final Pet pet = this.petService.findPetById(petId);
+		final Book book = new Book();
 		pet.addBook(book);
 		return book;
 	}
 
 	@GetMapping(value = "/owners/*/pets/{petId}/books/new")
-	public String initNewBookForm(@PathVariable("petId") int petId, Map<String, Object> model) {
+	public String initNewBookForm(@PathVariable("petId") final int petId, final Map<String, Object> model) {
 		return "pets/createOrUpdateBookForm";
 	}
 
-
 	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/books/new")
-	public String processNewBookForm(@Valid Book book, BindingResult result) {
-		
+	public String processNewBookForm(@Valid final Book book, final BindingResult result) {
+
 		ValidationUtils.invokeValidator(bookValidator, book, result);
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateBookForm";
-		}
-		else {
+		} else {
 			this.bookService.save(book);
 			return "redirect:/owners/{ownerId}";
 		}
 	}
-	
+
 	@GetMapping(value = "/owners/{ownerId}/pets/{petId}/books/{bookId}/delete")
-	public String processDeleteBook	(@PathVariable("bookId") int bookId) throws DataAccessException, DuplicatedPetNameException {
-			final Book reserva = bookService.findById(bookId).get();
-			final Set<Book> books = new HashSet<Book>(reserva.getPet().getBooks().stream().collect(Collectors.toSet()));
+	public String processDeleteBook(@PathVariable("bookId") final int bookId)
+			throws DataAccessException, DuplicatedPetNameException {
+		final Optional<Book> book = bookService.findById(bookId);
+		if (book.isPresent()) {
+			final Book reserva = book.get();
+			final Set<Book> books = new HashSet<>(reserva.getPet().getBooks().stream().collect(Collectors.toSet()));
 			books.remove(reserva);
-			Pet pet = reserva.getPet();
+			final Pet pet = reserva.getPet();
 			pet.setBooks(books);
 			this.petService.savePet(pet);
 			this.bookService.deleteById(bookId);
-			return "redirect:/owners/{ownerId}";
+		}
+		return "redirect:/owners/{ownerId}";
 	}
 
 }

@@ -1,11 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PropuestaAdopcion;
@@ -21,26 +18,26 @@ public class PropuestaAdopcionService extends BaseService<PropuestaAdopcion>{
 	private PropuestaAdopcionRepository repository;
 	
 	@Transactional
-	public void deleteByPet(Pet pet) {
+	public void deleteByPet(final Pet pet) {
 		this.repository.deleteByPet(pet);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PropuestaAdopcion> findByPet(Pet pet){
+	public List<PropuestaAdopcion> findByPet(final Pet pet){
 		return this.repository.findByPet(pet);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PropuestaAdopcion> findByOwner(Owner owner){
+	public List<PropuestaAdopcion> findByOwner(final Owner owner){
 		return this.repository.findByOwner(owner);
 	}
 	
 	@Transactional(readOnly = true)
-	public PropuestaAdopcion findPropuestaOwnerPet(Owner owner,Pet pet){
-		List<PropuestaAdopcion> propuestas = this.repository.findByOwner(owner);
+	public PropuestaAdopcion findPropuestaOwnerPet(final Owner owner,final Pet pet){
+		final List<PropuestaAdopcion> propuestas = this.repository.findByOwner(owner);
 		PropuestaAdopcion res =  null;
 		
-		for(PropuestaAdopcion propuesta: propuestas) { 
+		for(final PropuestaAdopcion propuesta: propuestas) { 
 			if(propuesta.getPet().equals(pet)) res = propuesta; 
 		}	
 		

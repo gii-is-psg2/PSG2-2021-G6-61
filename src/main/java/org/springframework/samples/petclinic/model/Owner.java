@@ -79,7 +79,7 @@ public class Owner extends Person {
 		return esCliente;
 	}
 
-	public void setEsCliente(boolean esCliente) {
+	public void setEsCliente(final boolean esCliente) {
 		this.esCliente = esCliente;
 	}
 
@@ -161,7 +161,7 @@ public class Owner extends Person {
 		for (final Pet pet : getPetsInternal()) {
 			String compName = pet.getName();
 			compName = compName.toLowerCase();
-			if (compName.equals(name) && pet.getId()!=id) {
+			if (compName.equals(name) && pet.getId() != id) {
 				return pet;
 			}
 		}

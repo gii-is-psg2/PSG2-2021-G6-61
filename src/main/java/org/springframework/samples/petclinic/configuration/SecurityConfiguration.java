@@ -25,22 +25,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+	
+	private static final String ADMIN_ROLE = "admin";
+	
+	private static final String OWNER_ROLE = "owner";
+	
+	private static final String CLIENT_ROLE = "client";
 
 	@Autowired
 	DataSource dataSource;
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")		
-				.antMatchers("/adoptions/**").hasAnyAuthority("owner")	
-				.antMatchers("/proposals/**").hasAnyAuthority("owner")
+				.antMatchers("/admin/**").hasAnyAuthority(ADMIN_ROLE)
+				.antMatchers("/owners/**").hasAnyAuthority(OWNER_ROLE, ADMIN_ROLE)		
+				.antMatchers("/adoptions/**").hasAnyAuthority(OWNER_ROLE)	
+				.antMatchers("/proposals/**").hasAnyAuthority(OWNER_ROLE)
 				.antMatchers("/vets/**").authenticated()
-				.antMatchers("/causas/**").hasAnyAuthority("client", "admin")
+				.antMatchers("/causas/**").hasAnyAuthority(CLIENT_ROLE, ADMIN_ROLE)
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
@@ -58,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	public void configure(final AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication()
 	      .dataSource(dataSource)
 	      .usersByUsernameQuery(
@@ -73,9 +79,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {	    
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
+	public PasswordEncoder passwordEncoder() {
+	    return NoOpPasswordEncoder.getInstance();
 	}
 	
 }

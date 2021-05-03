@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service.base;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +15,19 @@ public class BaseService<T> {
 	protected JpaRepository<T, Integer> genericRepository;
 
 	public Optional<T> findById(final Integer id) {
-		final Optional<T> returnEntity = genericRepository.findById(id);
-		return returnEntity;
+		return genericRepository.findById(id);
 	}
 
 	public List<T> findAll() {
-		final List<T> returnEntities = genericRepository.findAll();
-		return returnEntities;
+		return genericRepository.findAll();
 	}
 
 	public T save(final T entity) {
-		final T returnEntity = genericRepository.save(entity);
-		return returnEntity;
+		return genericRepository.save(entity);
 	}
 
 	public List<T> saveAll(final Iterable<T> entities) {
-		final List<T> returnEntity = genericRepository.saveAll(entities);
-		return returnEntity;
+		return genericRepository.saveAll(entities);
 	}
 	
 	public void delete(final T entity) {
