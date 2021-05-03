@@ -25,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AdoptionController {
 	
+	private static final String MESSAGE_CODE = "message";
+	
 	@Autowired
     private PetService petService;
 	@Autowired
@@ -36,18 +38,18 @@ public class AdoptionController {
 
 	
     @GetMapping(value = { "/adoptions" })
-    public String showAdoptions(final Map<String, Object> model,@RequestParam(value = "message", required = false) final String message, 
-    		Authentication auth, HttpServletRequest request) {
+    public String showAdoptions(final Map<String, Object> model,@RequestParam(value = MESSAGE_CODE, required = false) final String message, 
+    		final Authentication auth, final HttpServletRequest request) {
 
 
-    	Principal principal = request.getUserPrincipal();
-    	String username =  principal.getName(); 
-    	User  user = userService.findUser(username);
-    	Owner owner = ownerService.findOwnerByUser(user);
+    	final Principal principal = request.getUserPrincipal();
+    	final String username =  principal.getName(); 
+    	final User  user = userService.findUser(username);
+    	final Owner owner = ownerService.findOwnerByUser(user);
         final List<Pet> pets = this.petService.findByEnAdopcionTrueAndOwnerNotLike(owner);
         
         model.put("pets", pets);
-		model.put("message", message);
+		model.put(MESSAGE_CODE, message);
         return "adoptions/adoptions";
     }
 
@@ -56,12 +58,12 @@ public class AdoptionController {
   	public String adoptionsUpdateForm(@PathVariable("petId") final int petId, 
   			final ModelMap model, final RedirectAttributes redirectAttributes) {                                               
         
-    	Pet pet = petService.findPetById(petId);
+    	final Pet pet = petService.findPetById(petId);
     	if(pet != null) {
     		
     		pet.setEnAdopcion(true);
     		petService.save(pet);
-    		redirectAttributes.addAttribute("message", "AdoptionProposalSuccessful");
+    		redirectAttributes.addAttribute(MESSAGE_CODE, "AdoptionProposalSuccessful");
 
     		return "redirect:/owners/" + pet.getOwner().getId();
     	}else {
@@ -75,12 +77,12 @@ public class AdoptionController {
   	public String adoptionsCancelForm(@PathVariable("petId") final int petId, 
   			final ModelMap model, final RedirectAttributes redirectAttributes) {                                               
         
-    	Pet pet = petService.findPetById(petId);
+    	final Pet pet = petService.findPetById(petId);
     	if(pet != null) {
     		this.propuestaAdopcionService.deleteByPet(pet);
     		pet.setEnAdopcion(false);
     		petService.save(pet);
-    		redirectAttributes.addAttribute("message", "AdoptionCancelSuccessful");
+    		redirectAttributes.addAttribute(MESSAGE_CODE, "AdoptionCancelSuccessful");
     		return "redirect:/owners/" + pet.getOwner().getId();
     	}else {
     	

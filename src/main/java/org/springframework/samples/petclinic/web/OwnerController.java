@@ -140,9 +140,9 @@ public class OwnerController {
 	 */
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") final int ownerId, 
-			HttpServletRequest request, @RequestParam(value = "message", required = false) final String message) {
+			final HttpServletRequest request, @RequestParam(value = "message", required = false) final String message) {
 		final ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		Owner owner = this.ownerService.findOwnerById(ownerId);
+		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		mav.addObject("message",message);
 		mav.addObject(owner);
 		mav.addObject("ownerLogado", request.getUserPrincipal().getName().equals(owner.getUser().getUsername()));

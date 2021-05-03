@@ -39,42 +39,37 @@ public class BookService extends BaseService<Book>{
 
 	
 	@Transactional(readOnly = true)
-	public Collection<Book> findBooksByPet(Integer petId) {
+	public Collection<Book> findBooksByPet(final Integer petId) {
 		return bookRepository.findByPetId(petId);
 	}
 	
-//	@Transactional(readOnly = true)
-//	public Collection<Book> findBooks(Integer bookId) {
-//		return bookRepository.findById(petId);
-//	}
-	
 	@Transactional(readOnly = true)
-	public Collection<Book> findByRoomIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+	public Collection<Book> findByRoomIdAndCheckinBetween(final Integer roomId, final LocalDate checkIn, final LocalDate checkOut) {
 		return bookRepository.findByRoomIdAndCheckinBetween(roomId, checkIn, checkOut);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Book> findByRoomIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+	public Collection<Book> findByRoomIdAndCheckoutBetween(final Integer roomId, final LocalDate checkIn, final LocalDate checkOut) {
 		return bookRepository.findByRoomIdAndCheckoutBetween(roomId, checkIn, checkOut);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Book> findByRoomIdAndCheckinBeforeAndCheckoutAfter(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+	public Collection<Book> findByRoomIdAndCheckinBeforeAndCheckoutAfter(final Integer roomId, final LocalDate checkIn, final LocalDate checkOut) {
 		return bookRepository.findByRoomIdAndCheckinBeforeAndCheckoutAfter(roomId, checkIn, checkOut);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Book> findByPetIdAndCheckinBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+	public Collection<Book> findByPetIdAndCheckinBetween(final Integer roomId, final LocalDate checkIn, final LocalDate checkOut) {
 		return bookRepository.findByPetIdAndCheckinBetween(roomId, checkIn, checkOut);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Book> findByPetIdAndCheckoutBetween(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+	public Collection<Book> findByPetIdAndCheckoutBetween(final Integer roomId, final LocalDate checkIn, final LocalDate checkOut) {
 		return bookRepository.findByPetIdAndCheckoutBetween(roomId, checkIn, checkOut);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Book> findByPetIdAndCheckinBeforeAndCheckoutAfter(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+	public Collection<Book> findByPetIdAndCheckinBeforeAndCheckoutAfter(final Integer roomId, final LocalDate checkIn, final LocalDate checkOut) {
 		return bookRepository.findByPetIdAndCheckinBeforeAndCheckoutAfter(roomId, checkIn, checkOut);
 	}
 
