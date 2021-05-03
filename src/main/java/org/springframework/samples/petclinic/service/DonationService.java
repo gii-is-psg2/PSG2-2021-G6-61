@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class DonationService extends BaseService<Donation> {
 		if (causa.isPresent()) {
 			return donationRepository.findByCausaOrderByFechaDesc(causa.get());
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Transactional(readOnly = true)

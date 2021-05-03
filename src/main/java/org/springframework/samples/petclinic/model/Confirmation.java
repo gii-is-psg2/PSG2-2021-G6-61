@@ -20,8 +20,8 @@ public class Confirmation<T> {
 
 	private T entity;
 
-	public static <T> Confirmation<T> init(String texto, String url, String data, T entity) {
-		return new Confirmation<T>(texto, url, data, entity);
+	public static <T> Confirmation<T> init(final String texto, final String url, final String data, final T entity) {
+		return new Confirmation<>(texto, url, data, entity);
 
 	}
 
