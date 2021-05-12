@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.configuration;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -47,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/proposals/**").hasAnyAuthority(OWNER_ROLE)
 				.antMatchers("/vets/**").authenticated()
 				.antMatchers("/causas/**").hasAnyAuthority(CLIENT_ROLE, ADMIN_ROLE)
+				.antMatchers("/manage/health").permitAll()
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
@@ -60,7 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // ataques de tipo csrf y habilitar los framesets si su contenido
                 // se sirve desde esta misma página.
                 http.csrf().ignoringAntMatchers("/h2-console/**");
-                http.headers().frameOptions().sameOrigin();
+                http.headers().frameOptions().sameOrigin();             
 	}
 
 	@Override
