@@ -42,12 +42,4 @@
         </c:forEach>
         </tbody>
     </table>
-
-    <table class="table-buttons">
-        <tr>
-            <td>
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />"><spring:message code="viewXML" text="View as XML"/></a>
-            </td>            
-        </tr>
-    </table>
 </petclinic:layout>
