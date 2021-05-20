@@ -118,10 +118,15 @@ public class OwnerController {
 	}
 
 	@GetMapping(value = "/owners/{ownerId}/edit")
-	public String initUpdateOwnerForm(@PathVariable("ownerId") final int ownerId, final Model model) {
+	public String initUpdateOwnerForm(@PathVariable("ownerId") final int ownerId, final Model model, final HttpServletRequest request) {
 		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		model.addAttribute(owner);
-		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		if(request.getUserPrincipal().getName().equals(owner.getUser().getUsername())) {
+			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		}else {
+			return "welcome";
+		}
+		
 	}
 
 	@PostMapping(value = "/owners/{ownerId}/edit")

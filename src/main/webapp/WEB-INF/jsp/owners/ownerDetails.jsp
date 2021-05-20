@@ -38,7 +38,8 @@
             </td>
         </tr>
     </table>
-
+ 	<c:if test="${ownerLogado}">
+ 	
     <spring:url value="{ownerId}/edit" var="editUrl">
         <spring:param name="ownerId" value="${owner.id}"/>
     </spring:url>
@@ -53,7 +54,8 @@
         <spring:param name="ownerId" value="${owner.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete Owner</a>
-
+	</c:if>
+	
     <br/>
     <br/>
     <br/>
