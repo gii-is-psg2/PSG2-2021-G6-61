@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.model;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 /**
  * Simple JavaBean domain object representing an person.
@@ -26,20 +27,26 @@ import javax.validation.constraints.NotEmpty;
  */
 @MappedSuperclass
 public class Person extends BaseEntity {
+	
+	private static final String PATTERN_NAMES = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u";
+	
+	private static final String MENSAJE_PATTERN_NAMES = "It must not contain special characters";
 
 	@Column(name = "first_name")
 	@NotEmpty
+	@Pattern(regexp = PATTERN_NAMES, message = MENSAJE_PATTERN_NAMES)
 	protected String firstName;
 
 	@Column(name = "last_name")
 	@NotEmpty
+	@Pattern(regexp = PATTERN_NAMES, message = MENSAJE_PATTERN_NAMES)
 	protected String lastName;
 
 	public String getFirstName() {
 		return this.firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setFirstName(final String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -47,7 +54,7 @@ public class Person extends BaseEntity {
 		return this.lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(final String lastName) {
 		this.lastName = lastName;
 	}
 
