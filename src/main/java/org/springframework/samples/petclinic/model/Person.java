@@ -27,19 +27,14 @@ import javax.validation.constraints.Pattern;
  */
 @MappedSuperclass
 public class Person extends BaseEntity {
-	
-	private static final String PATTERN_NAMES = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u";
-	
-	private static final String MENSAJE_PATTERN_NAMES = "It must not contain special characters";
+		
 
 	@Column(name = "first_name")
 	@NotEmpty
-	@Pattern(regexp = PATTERN_NAMES, message = MENSAJE_PATTERN_NAMES)
 	protected String firstName;
 
 	@Column(name = "last_name")
 	@NotEmpty
-	@Pattern(regexp = PATTERN_NAMES, message = MENSAJE_PATTERN_NAMES)
 	protected String lastName;
 
 	public String getFirstName() {
