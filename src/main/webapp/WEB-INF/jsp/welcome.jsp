@@ -10,7 +10,7 @@
     </h2>
     <div class="row">
         <div class="col-md-12">
-            <spring:url value="/resources/images/clinicavet.jpeg" htmlEscape="true" var="petsImage"/>
+            <spring:url value="/resources/images/ranaFoto.jpg" htmlEscape="true" var="petsImage"/>
             <img class="img-responsive" src="${petsImage}" alt="Imagen Petclinic"/> 
             <a class="btn btn-default" href='<spring:url value="/manage/health" htmlEscape="true"/>'>Comprobar el estado de la aplicación</a>
         </div>
