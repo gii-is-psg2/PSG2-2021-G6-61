@@ -22,6 +22,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
+
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,7 +46,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "books")
 public class Book extends BaseEntity {
-
+	@Length(min=15, max=100)
 	@Column(name = "details")
 	private String details;
 
