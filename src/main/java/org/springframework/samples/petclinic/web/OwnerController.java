@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.WeatherControl;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -36,6 +38,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 
 /**
  * @author Juergen Hoeller
@@ -155,6 +163,64 @@ public class OwnerController {
 		mav.addObject("message",message);
 		mav.addObject(owner);
 		mav.addObject("ownerLogado", request.getUserPrincipal().getName().equals(owner.getUser().getUsername()));
+		
+		OkHttpClient client = new OkHttpClient();
+
+		Request requestApi = new Request.Builder()
+				.url("https://community-open-weather-map.p.rapidapi.com/find?q="+owner.getCity()+"&units=imperial")
+				.get()
+				.addHeader("x-rapidapi-key", "b4ed74f7b4msh8e1d108c05896fep158e02jsn5d55a96e9990")
+				.addHeader("x-rapidapi-host", "community-open-weather-map.p.rapidapi.com")
+				.build();
+		try {
+
+			Gson gson = new Gson(); 
+			ResponseBody responseBody = client.newCall(requestApi).execute().body();
+			WeatherControl entity = gson.fromJson(responseBody.string(), WeatherControl.class);
+			if(entity.getList().size() == 0) {
+				return mav;
+			}
+			
+			for (int i=0; i<owner.getPets().size();i++) {
+				
+				switch(owner.getPets().get(i).getType().toString()) {
+					
+				case "bird":
+					owner.getPets().get(i).setRecommend("No, never");
+					break;
+				case "cat":
+				case "dog":
+				case "hamster":
+					if(entity.getList().get(0).getClouds() != null && entity.getList().get(0).getRain() != null) {
+						owner.getPets().get(i).setRecommend("No, weather is cloudy and rainy");
+					}else if(entity.getList().get(0).getMain().getFeelsLike() > 78 && entity.getList().get(0).getMain().getFeelsLike() < 105){
+						owner.getPets().get(i).setRecommend("Yes, it's a perfect day for a walk");
+					}else if(entity.getList().get(0).getMain().getFeelsLike() > 105){
+						owner.getPets().get(i).setRecommend("Maybe not, too hot today");
+					}else {
+						owner.getPets().get(i).setRecommend("No, too cold day");
+					}
+					break;
+				case "lizard":
+				case "snake":
+					if(entity.getList().get(0).getClouds() != null && entity.getList().get(0).getRain() != null 
+					&& entity.getList().get(0).getMain().getFeelsLike() < 78) {
+						owner.getPets().get(i).setRecommend("Yes, today it's going to rain they love it");
+					}else if(entity.getList().get(0).getClouds() != null && entity.getList().get(0).getRain() != null){
+						owner.getPets().get(i).setRecommend("It's cloudy but maybe too hot");
+					}else {
+						owner.getPets().get(i).setRecommend("No, it's to hot for reptilians");
+					}
+					break;
+				
+				}
+			}
+			
+		} catch (IOException e) {
+			
+			return mav;
+		}
+		
 		return mav;
 	}
 	
