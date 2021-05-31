@@ -73,6 +73,8 @@
                         <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
                         <dt>Type</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
+                        <dt>Recomended walk</dt>
+                        <dd><c:out value="${pet.recommend}"/></dd>
                     </dl>
                 </td>
                 <td valign="top">
