@@ -193,9 +193,9 @@ public class OwnerController {
 				case "hamster":
 					if(entity.getList().get(0).getClouds() != null && entity.getList().get(0).getRain() != null) {
 						owner.getPets().get(i).setRecommend("No, weather is cloudy and rainy");
-					}else if(entity.getList().get(0).getMain().getFeelsLike() > 78 && entity.getList().get(0).getMain().getFeelsLike() < 105){
+					}else if(entity.getList().get(0).getMain().getFeelsLike() >= 78 && entity.getList().get(0).getMain().getFeelsLike() < 105){
 						owner.getPets().get(i).setRecommend("Yes, it's a perfect day for a walk");
-					}else if(entity.getList().get(0).getMain().getFeelsLike() > 105){
+					}else if(entity.getList().get(0).getMain().getFeelsLike() >= 105){
 						owner.getPets().get(i).setRecommend("Maybe not, too hot today");
 					}else {
 						owner.getPets().get(i).setRecommend("No, too cold day");
