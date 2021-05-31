@@ -54,10 +54,19 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="petId" value="${book.pet.id}"/>
-                    <button class="btn btn-default" type="submit">Add Book</button>
+                    <button class="btn btn-default" type="submit">Add Book</button>     
                 </div>
             </div>
+            
+		<div class="row">
+       		 <div class="mx-auto" style="width: 100px;">
+            <spring:url value="/resources/images/perro_caseta.jpg" htmlEscape="true" var="petsImage"/>
+            <img class="img-responsive" src="${petsImage}" alt="Imagen Petclinic"/> 
+   		</div>   		
+    </div>
         </form:form>
+        
+        
 
         <br/>
         <b>Previous Books</b>

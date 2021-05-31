@@ -67,7 +67,7 @@ public class DonationController {
 			final Donation d = donationService.findByCausaAndDonante(causa, donante);
 
 			if (result.hasErrors()) {
-				return "redirect:/causas/{causaId}/newDonation";
+				return NEW_DONATION_TEMPLATE;
 			} else if (d != null) {
 
 				final Double dtot;

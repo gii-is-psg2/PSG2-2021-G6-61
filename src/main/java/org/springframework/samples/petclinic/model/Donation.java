@@ -7,7 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -34,7 +35,8 @@ public class Donation extends BaseEntity{
 	@DateTimeFormat
 	private LocalDate fecha;
 	
-	@Positive
+	@Min(value=1, message="You have to donate at least 1 euro")
+	@NotNull
 	@Digits(integer = 12,fraction = 2, message = "Money just have two decimal numbers")
 	private Double cantidad;
 
